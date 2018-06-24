@@ -7,7 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :chatty, ChattyWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 4289],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -51,8 +51,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :chatty, Chatty.Repo,
   adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "",
+  username: System.get_env("MYSQL_USERNAME") || "root",
+  password: System.get_env("MYSQL_PASSWORD") || "password",
   database: "chatty_dev",
   hostname: "localhost",
   pool_size: 10

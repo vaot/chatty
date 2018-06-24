@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+Chatty.Repo.delete_all Chatty.Coherence.User
+
+Chatty.Coherence.User.changeset(%Chatty.Coherence.User{}, %{name: "Test User", email: "testuser@example.com", password: "secret", password_confirmation: "secret"})
+|> Chatty.Repo.insert!
