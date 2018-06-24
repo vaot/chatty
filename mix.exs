@@ -41,7 +41,8 @@ defmodule Chatty.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.13.1"},
       {:cowboy, "~> 1.0"},
-      {:coherence, "~> 0.5"}
+      {:coherence, "~> 0.5"},
+      {:plug, "1.5.0"}
     ]
   end
 
