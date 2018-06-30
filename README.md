@@ -1,7 +1,14 @@
 # Chatty
 ### To run:
 `vagrant up`
-and visit http://localhost:4289.
+and visit http://localhost:4289. As a back-up, if running via `vagrant up` gives you problem,
+you can check out the site live at http://us-east.aurorapool.io/, it is deployed on AWS.
+You need to make sure to use that exact url, because there are multiple apps running on that
+domain. http://us-east.aurorapool.io/.
+You can use
+username: testuser@example.com
+password: secret
+Or you can create your own account :). With love from the Dreamteam.
 
 To start your Phoenix server:
 
