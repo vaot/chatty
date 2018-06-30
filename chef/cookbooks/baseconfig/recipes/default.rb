@@ -70,7 +70,6 @@ execute 'assets' do
   command %{
     cd /home/vagrant/project/assets && yarn install
   }
-  notifies :run, 'execute[start_server]', :immediately
 end
 
 # Base configuration recipe in Chef.
@@ -81,6 +80,11 @@ cookbook_file "ntp.conf" do
   path "/etc/ntp.conf"
 end
 
+# This ensures we run the setup postgres once
+file 'init_db_lockfile_11' do
+  action :create_if_missing
+  notifies :run, 'execute[setup_ecto]', :immediately
+end
 
 execute 'ntp_restart' do
   command 'service ntp restart'
@@ -91,14 +95,7 @@ execute 'setup_ecto' do
   command "cd /home/vagrant/project && mix ecto.setup"
 end
 
-# This ensures we run the setup postgres once
-file 'init_db_lockfile_11' do
-  action :create_if_missing
-  notifies :run, 'execute[setup_ecto]', :immediately
-end
-
 execute 'start_server' do
-  action :nothing
   command %{
     cd /home/vagrant/project && mix phx.server &
   }
