@@ -31,31 +31,46 @@ execute 'install_node_and_yarn' do
     rm -rf /root/.yarn && \
     curl --silent --location https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get -y install nodejs inotify-tools && \
-    curl -o- -L https://yarnpkg.com/install.sh | bash && \
-    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH" && \
-    cd /home/vagrant/project/assets && yarn install
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
+    sudo apt-get update && sudo apt-get -y install yarn
   }
+  notifies :run, 'execute[install_erlang_and_elixir]', :immediately
 end
 
 execute 'install_erlang_and_elixir' do
+  action :nothing
   command %{
     wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb && \
     sudo apt-get update && \
     sudo apt-get -y install esl-erlang && \
     sudo apt-get -y install elixir
   }
+  notifies :run, 'execute[install_hex]', :immediately
 end
 
 execute 'install_hex' do
+  action :nothing
   command %{
     cd /home/vagrant/project && mix local.hex --force && mix local.rebar --force
   }
+  notifies :run, 'execute[install_deps]', :immediately
 end
 
 execute 'install_deps' do
+  action :nothing
   command %{
     cd /home/vagrant/project && mix deps.get
   }
+  notifies :run, 'execute[assets]', :immediately
+end
+
+execute 'assets' do
+  action :nothing
+  command %{
+    cd /home/vagrant/project/assets && yarn install
+  }
+  notifies :run, 'execute[start_server]', :immediately
 end
 
 # Base configuration recipe in Chef.
@@ -83,6 +98,7 @@ file 'init_db_lockfile_11' do
 end
 
 execute 'start_server' do
+  action :nothing
   command %{
     cd /home/vagrant/project && mix phx.server &
   }
