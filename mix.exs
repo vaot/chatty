@@ -42,7 +42,8 @@ defmodule Chatty.Mixfile do
       {:gettext, "~> 0.13.1"},
       {:cowboy, "~> 1.0"},
       {:coherence, "~> 0.5"},
-      {:plug, "1.5.0"}
+      {:plug, "1.5.0"},
+      {:bcrypt_elixir, "~> 1.0"}
     ]
   end
 

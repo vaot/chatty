@@ -51,8 +51,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :chatty, Chatty.Repo,
   adapter: Ecto.Adapters.MySQL,
-  username: System.get_env("MYSQL_USERNAME") || "root",
-  password: System.get_env("MYSQL_PASSWORD") || "password",
+  username: "root",
+  password: "password",
   database: "chatty_dev",
   hostname: "localhost",
   pool_size: 10
