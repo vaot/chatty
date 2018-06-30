@@ -1,4 +1,7 @@
 # Chatty
+### To run:
+`vagrant up`
+and visit http://localhost:4289.
 
 To start your Phoenix server:
 
