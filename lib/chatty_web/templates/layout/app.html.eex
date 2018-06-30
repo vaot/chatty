@@ -37,11 +37,7 @@
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script type="text/javascript">
       window.Chatty = {};
-
-      <% if assigns[:user_id] do %>;
-        window.Chatty.userId = <%= assigns[:user_id] %>;
-      <% end %>
-
+      window.Chatty.userId = "<%= assigns[:user_id] %>";
       window.Chatty.userToken = "<%= assigns[:user_token] %>";
     </script>
   </body>

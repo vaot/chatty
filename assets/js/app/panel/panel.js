@@ -30,7 +30,7 @@ app.directive('panel', [
           controller.setup = () => {
             $scope.messages = [];
             $scope.attr = {};
-            $scope.attr.userId = window.Chatty.userId;
+            $scope.attr.userId = window.parseInt(window.Chatty.userId, 10);
 
             RoomManager.on('message', (payload) => {
               $scope.$apply(() => {
