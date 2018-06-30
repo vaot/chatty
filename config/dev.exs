@@ -50,9 +50,10 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :chatty, Chatty.Repo,
-  adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "password",
-  database: "chatty_dev",
+  adapter: Ecto.Adapters.Postgres,
+  username: "vaot",
+  password: "",
+  database: "beagle_dev",
   hostname: "localhost",
   pool_size: 10
+

@@ -13,8 +13,9 @@ config :chatty, ChattyWeb.Endpoint,
 
 # Configure your database
 config :chatty, Chatty.Repo,
-  adapter: Ecto.Adapters.MySQL,
-  username: System.get_env("MYSQL_USERNAME"),
-  password: System.get_env("MYSQL_PASSWORD"),
-  database: "chatty_prod",
-  pool_size: 15
+  adapter: Ecto.Adapters.Postgres,
+  username: System.get_env("POSTGRES_USERNAME"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  database: "cahtty_prod",
+  hostname: System.get_env("POSTGRES_HOSTNAME"),
+  pool_size: 10
