@@ -12,6 +12,7 @@ defmodule Chatty.Application do
       supervisor(Chatty.Repo, []),
       # Start the endpoint when the application starts
       supervisor(ChattyWeb.Endpoint, []),
+      supervisor(ChattyWeb.Presence, [])
       # Start your own worker by calling: Chatty.Worker.start_link(arg1, arg2, arg3)
       # worker(Chatty.Worker, [arg1, arg2, arg3]),
     ]

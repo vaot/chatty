@@ -1,0 +1,27 @@
+.chat-history
+  %ul
+    %li(ng-repeat="msg in messages" ng-class="{'clearfix': attr.usedId != msg.user_id}")
+      %div(ng-if="attr.userId == msg.user_id")
+        .message-data
+          %span.message-data-name
+            %i.fa.fa-circle.online
+            {{msg.user}}
+          %span.message-data-time
+            {{ msg.timestamp | timeElapsed }}
+        .message.my-message
+          {{msg.message}}
+
+      %div(ng-if="attr.userId != msg.user_id")
+        .message-data.align-right
+          %span.message-data-name {{msg.user}}
+          %i.fa.fa-circle.me
+        .message.other-message.float-right
+          {{msg.message}}
+
+.chat-message.clearfix
+  %textarea#message-to-send(name="message-to-send"
+                            placeholder="Type your message"
+                            rows="3"
+                            ng-model="message"
+                            ng-keypress="panelCtrl.onKeyPress(message, $event)")
+  %button(ng-click="panelCtrl.sendMessage(message)") Send

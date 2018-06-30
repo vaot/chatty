@@ -1,0 +1,9 @@
+.row.h-100
+  .col-lg-1
+    %sidebar
+  .col-lg-4
+    .container.clearfix
+      %user-list
+  .col-lg-7
+    .chat
+      %panel

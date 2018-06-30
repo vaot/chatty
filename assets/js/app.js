@@ -17,5 +17,28 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
+import socket from "./socket"
 
-// import socket from "./socket"
+// Templates
+require('js/app/rooms/rooms_new.hamlc')
+require('js/app/rooms/rooms_chat.hamlc')
+require('js/app/rooms/rooms.hamlc')
+require('js/app/sidebar/sidebar_index.hamlc')
+require('js/app/panel/panel_index.hamlc')
+require('js/app/users/user_lists_index.hamlc')
+
+import "js/app/init.js"
+import "js/app/config.js"
+import "js/app/authkey_interceptor.js"
+import "js/app/routes.js"
+
+import "js/app/filters/time_elapsed.js"
+
+import "js/app/users/users_list.js"
+import "js/app/sidebar/sidebar.js"
+import "js/app/panel/panel.js"
+import "js/app/rooms/rooms_resource.js"
+import "js/app/rooms/rooms_controller.js"
+import "js/app/rooms/rooms_chat_controller.js"
+import "js/app/rooms/rooms_new_controller.js"
+import "js/app/rooms/room_manager.js"

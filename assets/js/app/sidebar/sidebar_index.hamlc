@@ -1,0 +1,19 @@
+%nav.navbar
+  %ul.navbar-nav
+    #button_icon
+      %li.nav-item
+        %a(href="#")
+          %img.nav-link(href="#" src="/images/chat_icon.png")
+      %li.nav-item
+        %a(href="#")
+          %img.nav-link(href="#" src="/images/friend_icon.png")
+      %li.nav-item
+        %a(href="#")
+          %img.nav-link(href="#" src="/images/mail_icon.png")
+      %li.nav-item
+        %a(href="#")
+          %img.nav-link(href="#" src="/images/setting_icon.png")
+    #last_icon
+      %li.nav-item
+        %a(href="#" ng-click="sidebarCtrl.signOut()")
+          %img.nav-link(href="#" src="/images/exit_icon.png")

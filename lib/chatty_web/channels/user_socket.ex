@@ -1,8 +1,9 @@
 defmodule ChattyWeb.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
-  # channel "room:*", ChattyWeb.RoomChannel
+  @max_token_age 1000000
+
+  channel "room:*", ChattyWeb.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -19,8 +20,13 @@ defmodule ChattyWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(%{"user_token" => user_id_token}, socket) do
+    case Phoenix.Token.verify(socket, "user_id", user_id_token, max_age: @max_token_age) do
+      {:ok, user_id} ->
+        {:ok, assign(socket, :user_id, user_id)}
+      {:error, _reason} ->
+        :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

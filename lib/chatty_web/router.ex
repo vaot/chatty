@@ -18,10 +18,28 @@ defmodule ChattyWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug Coherence.Authentication.Session, protected: true
+    plug :put_user_token
+  end
+
+  defp put_user_token(conn, _) do
+    current_user = Coherence.current_user(conn).id
+    user_id_token = Phoenix.Token.sign(conn, "user_id",
+                    current_user)
+
+    conn
+    |> assign(:user_token, user_id_token)
+    |> assign(:user_id, current_user)
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  scope "/api", ChattyWeb do
+    scope "/v1", Api.V1 do
+      pipe_through :api
+      post "/room", RoomController, :create
+    end
   end
 
   scope "/" do
@@ -29,10 +47,16 @@ defmodule ChattyWeb.Router do
     coherence_routes()
   end
 
+  scope "/" do
+    pipe_through :protected
+    coherence_routes :protected
+  end
+
   scope "/", ChattyWeb do
     pipe_through :protected
 
-    get "/", PageController, :index
+    get "/signout", PageController, :signout
+    get "/*path", PageController, :index
   end
 
   # Other scopes may use custom stacks.

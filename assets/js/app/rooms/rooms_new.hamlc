@@ -1,0 +1,2 @@
+%h1 Hello Hugo, make this page prettier please !!!
+%button(type="button" class='btn-lg btn btn-primary' href="javascript:void(0)" ng-click="createRoom()") Start Room
