@@ -22,6 +22,31 @@ main {
     visibility: hidden;
 }
 
+#message-to-send{
+    height: 100px;
+    width: 100%;
+    font-size: 2em;
+    background-color: #fff;
+
+}
+
+.gh-emoji {
+    height: 30px;
+    width: 30px;
+}
+
+.unselectable {
+    height: 30px;
+    width: 30px;
+    /*pointer-events: none;*/
+    /*user-drag: none; */
+/*    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;*/
+}
+
 .col-lg-1 {
 
     position: absolute;
@@ -120,7 +145,6 @@ input {
 #people-list .about .status .offline {
     color: orange;
 }
-
 
 
 
@@ -269,6 +293,7 @@ input {
 .chat .chat-message button::hover {
    color: darken(#87CEEB, 7%);
 }
+
 
 .chat .online .offline, .me {
     margin-right: 3px;
