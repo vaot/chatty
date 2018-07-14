@@ -4,6 +4,7 @@ defmodule ChattyWeb.RoomChannel do
   alias ChattyWeb.Presence
   alias Chatty.Repo
   alias Chatty.Coherence.User
+  alias Chatty.Post
 
   def join("room:" <> chat_id, _payload, socket) do
     send(self, :after_join)
@@ -11,7 +12,24 @@ defmodule ChattyWeb.RoomChannel do
   end
 
   def handle_in("message:new", payload, socket) do
+
+    IO.puts"++++++"
+    IO.inspect(payload)
+
     user = Repo.get(User, socket.assigns.user_id)
+
+    myPost = %{
+      name: user.name,
+      post: payload["message"],
+      email: user.email,
+      timestamp: payload["timestamp"]
+    }
+    IO.inspect(myPost)
+
+
+    Post.changeset(%Post{}, myPost) |> Repo.insert
+
+    
     broadcast! socket, "message:new", %{
       user: user.name,
       message: payload["message"],
