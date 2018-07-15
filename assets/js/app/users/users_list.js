@@ -19,11 +19,17 @@ app.directive('userList', [
             });
           }
 
+          controller.addFriend = (name) => {
+            console.log(name);
+            RoomManager.sendFriend(name);
+          }
+
           controller.setup();
           return controller;
         }
       ],
-      templateUrl: '/user_lists_index.html'
+      templateUrl: '/user_lists_index.html',
+      controllerAs: 'userCtrl'
     }
   }
 ])
