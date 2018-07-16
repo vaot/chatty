@@ -2,6 +2,7 @@ defmodule Chatty.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
+alias Chatty.Repo
 
   schema "posts" do
     field :email, :string
@@ -16,5 +17,9 @@ defmodule Chatty.Post do
     post
     |> cast(attrs, [:name, :post, :email])
     |> validate_required([:name, :post, :email])
+  end
+
+  def get_posts(limit \\20) do
+    Repo.all(Message, limit:limit)
   end
 end
