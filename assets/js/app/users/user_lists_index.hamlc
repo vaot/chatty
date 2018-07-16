@@ -9,3 +9,4 @@
         .status
           %i.fa.fa-circle.online
           online | {{ user.online_at | timeElapsed:'from_unix' }}
+          %button(type="button") +
