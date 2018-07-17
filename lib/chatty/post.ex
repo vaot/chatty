@@ -19,7 +19,7 @@ alias Chatty.Repo
     |> validate_required([:name, :post, :email])
   end
 
-  def get_posts(limit \\20) do
-    Repo.all(Message, limit:limit)
-  end
+  # def get_posts(limit \\20) do
+  #   Repo.all(Message, limit:limit)
+  # end
 end
