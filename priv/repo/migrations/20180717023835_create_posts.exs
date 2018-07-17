@@ -12,5 +12,8 @@ defmodule Chatty.Repo.Migrations.CreatePosts do
       timestamps()
     end
 
+    create index(:posts, [:user_id])
+    create index(:posts, [:room_id])
   end
+
 end
