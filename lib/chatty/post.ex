@@ -2,12 +2,13 @@ defmodule Chatty.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
-alias Chatty.Repo
 
   schema "posts" do
     field :email, :string
     field :name, :string
     field :post, :string
+    field :room_id, :string
+    field :user_id, :integer
 
     timestamps()
   end
@@ -15,11 +16,7 @@ alias Chatty.Repo
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:name, :post, :email])
-    |> validate_required([:name, :post, :email])
+    |> cast(attrs, [:name, :post, :email, :user_id, :room_id])
+    |> validate_required([:name, :post, :email, :user_id, :room_id])
   end
-
-  # def get_posts(limit \\20) do
-  #   Repo.all(Message, limit:limit)
-  # end
 end

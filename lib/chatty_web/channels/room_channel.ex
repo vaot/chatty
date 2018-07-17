@@ -20,7 +20,8 @@ defmodule ChattyWeb.RoomChannel do
     IO.inspect(socket.topic)
     IO.puts"++++++"
     "room:" <> chat_id = socket.topic
-    IO.inspect(chat_id)
+    %{user_id: user_id} = socket.assigns
+    IO.inspect(user_id)
     user = Repo.get(User, socket.assigns.user_id)
 
     #room id: / user id
@@ -28,8 +29,11 @@ defmodule ChattyWeb.RoomChannel do
       name: user.name,
       post: payload["message"],
       email: user.email,
+      room_id: chat_id,
+      user_id: user_id,
       timestamp: payload["timestamp"]
     }
+    IO.puts"-----------"
     IO.inspect(myPost)
 
 
