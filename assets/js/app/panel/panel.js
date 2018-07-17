@@ -2,6 +2,7 @@ let app = angular.module('chatty');
 
 import { load, parse } from 'gh-emoji';
 
+window.parse = parse;
 
 app.directive('panel', [
   'RoomManager',
@@ -34,13 +35,14 @@ app.directive('panel', [
           controller.onMessageChange = (message) => {
             load().then(() => {
               let pm = parse(message);
+              console.log(pm);
               message = pm;
               const test = pm.replace("<img","<img draggable='false' (dragstart)='false;' class='unselectable'");
               // let first_message = message;
               // let parsed_message = parse(message);
               // console.log("first: " +first_message);
               // console.log("parsed: " +parsed_message);
-              $scope.message = test;
+              $scope.message = test.replace("<br>", "");
             });
             // console.log(message);
           }

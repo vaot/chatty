@@ -19,9 +19,9 @@ app.directive('userList', [
             });
           }
 
-          controller.addFriend = (name) => {
-            console.log(name);
-            RoomManager.sendFriend(name);
+          controller.addFriend = (user) => {
+            console.log(user);
+            RoomManager.sendFriend(user);
           }
 
           controller.setup();

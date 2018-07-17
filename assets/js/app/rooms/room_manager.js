@@ -80,8 +80,8 @@ app.service('RoomManager', [
       _channel.push('message:new', { message: message, timestamp: moment().toString() });
     }
 
-    api.sendFriend = (name) => {
-      _channel.push('friend:new', { name: name, timestamp: moment().toString() });
+    api.sendFriend = (user) => {
+      _channel.push('friend:new', { user_id: user.user_id, timestamp: moment().toString() });
     }
 
     return api;

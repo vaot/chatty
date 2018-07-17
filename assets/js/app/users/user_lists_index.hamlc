@@ -5,8 +5,9 @@
   %ul.list
     %li.clearfix(ng-repeat="user in activeUsers | filter:search")
       .about
+        {{user}}
         %h3 {{user.name}}
         .status
           %i.fa.fa-circle.online
           online | {{ user.online_at | timeElapsed:'from_unix' }} |  
-          %a(href="#" (ng-click="userCtrl.addFriend(user.name)")) add friend
+          %a(href="#" ng-click="userCtrl.addFriend(user)") add friend

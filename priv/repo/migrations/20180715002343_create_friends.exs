@@ -4,12 +4,13 @@ defmodule Chatty.Repo.Migrations.CreateFriends do
 
   def change do
     create table(:friends) do
-      add :name, :string
-      add :friend, :string
+      add :user_id, references(:users)
+      add :friend_id, references(:users)
 
-      timestamps()
+      # timestamps()
     end
-
-    create index(:friends, [:name])
   end
 end
+
+
+
