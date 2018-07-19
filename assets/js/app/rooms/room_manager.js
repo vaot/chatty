@@ -10,6 +10,8 @@ app.service('RoomManager', [
     let api = {};
     let _activeUsers = {};
     let _activeUsersNormalized = [];
+    let _activeFriends = {};
+    let _activeFriendsNormalized = [];
 
     window.RoomManager = api;
 
@@ -53,6 +55,12 @@ app.service('RoomManager', [
         _activeUsersNormalized = _toNormalizedActiveUsers(_activeUsers);
         _run('presence', api.getActiveUsers());
       })
+
+      _channel.on('presence_friends_state', payload => {
+        _activeFriends = Presence.syncState(_activeFriends, payload);
+        _activeFriendsNormalized = _toNormalizedActiveUsers(_activeFriends);
+        _run('presence', api.getActiveFriends());
+      })
     }
 
     api.getUserName = () => {
@@ -61,6 +69,10 @@ app.service('RoomManager', [
 
     api.getActiveUsers = () => {
       return _activeUsersNormalized;
+    }
+
+    api.getActiveFriends = () => {
+      return _activeFriendsNormalized;
     }
 
     api.on = (event, callback) => {

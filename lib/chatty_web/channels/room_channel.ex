@@ -37,9 +37,9 @@ defmodule ChattyWeb.RoomChannel do
       # timestamp: payload["timestamp"]
     }
 
-    IO.puts "+++++++++++++++++++++++++++++++++++"
-    IO.inspect(myFriend)
-    IO.puts "+++++++++++++++++++++++++++++++++++"
+    # IO.puts "+++++++++++++++++++++++++++++++++++"
+    # IO.inspect(myFriend)
+    # IO.puts "+++++++++++++++++++++++++++++++++++"
 
     Friend.changeset(%Friend{}, myFriend) |> Repo.insert
     {:noreply, socket}
@@ -47,16 +47,31 @@ defmodule ChattyWeb.RoomChannel do
 
   def handle_info(:after_join,  socket) do
     user = Repo.get(User, socket.assigns.user_id)
+    friend = Repo.get(Friend, socket.assigns.user_id)
 
     {:ok, _} = Presence.track(socket, user.name, %{
       online_at: inspect(System.system_time(:seconds)),
-      user_id: user.id
+      user_id: user.id,
+      friend_id: friend.friend_id
     })
 
     push socket, "presence_state", Presence.list(socket)
 
     {:noreply, socket}
   end
+
+  # def handle_info(:after_join_friends,  socket) do
+  #   friend = Repo.get(Friend, socket.assigns.friend_id)
+
+  #   {:ok, _} = Presence.track(socket, friend.id, %{
+  #     online_at: inspect(System.system_time(:seconds)),
+  #     friend_id: friend.id
+  #   })
+
+  #   push socket, "presence_friend_state", Presence.list(socket)
+
+  #   {:noreply, socket}
+  # end
 
   def terminate(reason, socket) do
     {:noreply, socket}

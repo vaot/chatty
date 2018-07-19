@@ -110,11 +110,12 @@ input {
 .fa-search {
     position: relative;
     left: -25px;
+    /*margin: 20 0 20 0;*/
 }
 
 #people-list ul {
     padding: 20px;
-    height: 770px;
+    /*height: 770px;*/
 }
 
 
