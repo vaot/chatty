@@ -24,4 +24,5 @@
                             rows="3"
                             ng-model="message"
                             ng-keypress="panelCtrl.onKeyPress(message, $event)")
+  %input#custom{:type => "color"}
   %button(ng-click="panelCtrl.sendMessage(message)") Send

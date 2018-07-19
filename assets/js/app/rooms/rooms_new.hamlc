@@ -30,5 +30,7 @@
 
 .head
 	%img.rock(src="/images/photo.jpg")
+  %input.form-control{:name => "channel", :type => "text", "ng-model" => "channelName"}
+  %br/
 	#buttonCent
 		%button(type="button" class='btn-dark btn btn-primary room_btn' href="javascript:void(0)" ng-click="createRoom()") Start Room
