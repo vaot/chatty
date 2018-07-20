@@ -9,9 +9,11 @@ app.controller('RoomsNewCtrl', [
       return (Math.random().toString(36).substring(2,10) + Math.random().toString(36).substring(2,10));
     }
 
-    $scope.createRoom = () => {
+    $scope.createRoom = (channelName) => {
+      console.log(channelName);
       const roomId = _generateRandomId();
-      $state.go('rooms.chat', { roomId: roomId });
+      console.log(roomId);
+      $state.go('rooms.chat', { roomId: roomId, channelName: channelName });
     }
   }
 ])

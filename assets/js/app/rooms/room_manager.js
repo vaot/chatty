@@ -80,6 +80,10 @@ app.service('RoomManager', [
       _channel.push('message:new', { message: message, timestamp: moment().toString() });
     }
 
+    api.createRoom = (roomId, channelName) => {
+      _channel.push('channel:new', { roomId: roomId, channelName: channelName, timestamp: moment().toString() });
+    }
+
     return api;
   }
 ])
