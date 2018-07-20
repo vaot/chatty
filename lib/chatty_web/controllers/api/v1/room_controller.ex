@@ -7,12 +7,14 @@ defmodule ChattyWeb.Api.V1.RoomController do
     |> json(%{ rooom_id: "jdiusajdiuasdiuas" })
   end
 
-  def messages(conn, _params) do
-   #  IO.puts">>>>>>>>"
-  	# IO.inspect(conn)
+  def messages(conn, %{"room_id" => room_id}) do
+    IO.puts">>>>>>>>"
+    IO.inspect(room_id)
+    IO.puts">>>>>>>>"
+
     conn
     |> put_status(200)
-    |> json(%{messages: "messages_DI"})
+    |> json(%{room_id: room_id})
   	
   end
 end
