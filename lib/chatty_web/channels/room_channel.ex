@@ -4,6 +4,8 @@ defmodule ChattyWeb.RoomChannel do
   alias ChattyWeb.Presence
   alias Chatty.Repo
   alias Chatty.Coherence.User
+  alias Chatty.RoomModel
+  alias Chatty.RoomModel.Room
   alias Chatty.Buddies.Friend
 
   def join("room:" <> chat_id, _payload, socket) do
