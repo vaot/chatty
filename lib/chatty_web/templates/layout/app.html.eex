@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <%# colorpicker %>
-    <script src='spectrum.js'></script>
-    <link rel='stylesheet' href='spectrum.css' />
+<%#     <script src='spectrum.js'></script>
+    <link rel='stylesheet' href='spectrum.css' /> %>
 
 
     <base href="/">

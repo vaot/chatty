@@ -12,16 +12,6 @@ defmodule ChattyWeb.RoomChannel do
     {:ok, socket}
   end
 
-  def handle_in("channel:new", payload, socket) do
-    IO.puts "start channel new"
-    IO.inspect(payload)
-
-
-  end
-
-
-
-
   def handle_in("message:new", payload, socket) do
     user = Repo.get(User, socket.assigns.user_id)
     broadcast! socket, "message:new", %{

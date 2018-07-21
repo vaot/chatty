@@ -2,7 +2,6 @@ defmodule Chatty.RoomModel.Room do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "rooms" do
     field :channelName, :string
     field :roomId, :string
@@ -26,10 +25,10 @@ defmodule Chatty.RoomModel.Room do
 
   defp ensure_room_id(room, attrs) do
     room 
-    |> Ecto.Changeset.put_change(:roomId, generate_random_id())
+    |> Ecto.Changeset.put_change(:roomId, generate_random_id(16))
   end
 
-  defp generate_random_id do
-    "sdfsdf"
+  defp generate_random_id(n) do
+    :crypto.strong_rand_bytes(n) |> Base.encode64
   end
 end

@@ -8,7 +8,7 @@ defmodule ChattyWeb.Api.V1.RoomController do
       {:ok, room} ->
         conn
         |> put_status(200)
-        |> json(room)
+        |> json(room_view(room))
  
       {:error, %Ecto.Changeset{} = changeset} ->
       	conn
@@ -16,4 +16,10 @@ defmodule ChattyWeb.Api.V1.RoomController do
         |> json(%{ error: "dasdasdsada" })
     end
   end
+
+  def room_view(room) do
+    %{channelName: room.channelName, roomId: room.roomId, id: room.id}
+  end
+
+
 end
