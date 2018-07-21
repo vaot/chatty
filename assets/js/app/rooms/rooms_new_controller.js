@@ -3,15 +3,17 @@ const app = angular.module('chatty');
 app.controller('RoomsNewCtrl', [
   '$scope',
   '$state',
-  ($scope, $state) => {
+  'RoomsResource',
+  ($scope, $state, RoomsResource) => {
 
-    let _generateRandomId = () => {
-      return (Math.random().toString(36).substring(2,10) + Math.random().toString(36).substring(2,10));
-    }
+    $scope.createRoom = (channelName) => {
+      
+      let Room = new RoomsResource({channelName: channelName})
 
-    $scope.createRoom = () => {
-      const roomId = _generateRandomId();
-      $state.go('rooms.chat', { roomId: roomId });
+      Room.$save().then((result)=> {
+        $state.go('rooms.chat', { roomId: result.roomId, channelName: channelName });
+        console.log(result);
+      })
     }
   }
 ])
