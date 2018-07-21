@@ -1,4 +1,8 @@
 # Chatty
+
+
+#See readme.txt for Project Checkpoint notes
+
 ### To run:
 `vagrant up`
 and visit http://localhost:4289. As a back-up, if running via `vagrant up` gives you problem,
