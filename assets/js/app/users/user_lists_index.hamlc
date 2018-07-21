@@ -12,7 +12,7 @@
         .status
           %i.fa.fa-circle.online
           online | {{ user.online_at | timeElapsed:'from_unix' }} |  
-          %a(href="#" ng-click="userCtrl.addFriend(user)") unfriend
+          %a(href="#" ng-click="userCtrl.removeFriend(user)") unfriend
 
   %h1 Online Users
   %ul.list

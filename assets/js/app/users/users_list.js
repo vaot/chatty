@@ -24,6 +24,11 @@ app.directive('userList', [
             RoomManager.sendFriend(user);
           }
 
+          controller.removeFriend = (user) => {
+            console.log(user);
+            RoomManager.sendFriend(user);
+          }
+
           controller.setup();
           return controller;
         }

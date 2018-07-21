@@ -6,4 +6,5 @@ defmodule ChattyWeb.Api.V1.RoomController do
     |> put_status(200)
     |> json(%{ rooom_id: "jdiusajdiuasdiuas" })
   end
+
 end
