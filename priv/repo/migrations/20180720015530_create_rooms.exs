@@ -3,6 +3,8 @@ defmodule Chatty.Repo.Migrations.CreateRooms do
 
   def change do
     create table(:rooms) do
+      add :channelName, :string
+      add :roomId, :string
       add :owner, :string
       add :color, :string
 
