@@ -2,11 +2,25 @@
   .search
     %input(placeholder="search" type="text" ng-model="search.name")
     %i.fa.fa-search
+    
+  %h1 Friends
   %ul.list
     %li.clearfix(ng-repeat="user in activeUsers | filter:search")
       .about
+        -# {{user}}
         %h3 {{user.name}}
         .status
           %i.fa.fa-circle.online
-          online | {{ user.online_at | timeElapsed:'from_unix' }}
-          %button(type="button") +
+          online | {{ user.online_at | timeElapsed:'from_unix' }} |  
+          %a(href="#" ng-click="userCtrl.removeFriend(user)") unfriend
+
+  %h1 Online Users
+  %ul.list
+    %li.clearfix(ng-repeat="user in activeUsers | filter:search")
+      .about
+        -# {{user}}
+        %h3 {{user.name}}
+        .status
+          %i.fa.fa-circle.online
+          online | {{ user.online_at | timeElapsed:'from_unix' }} |  
+          %a(href="#" ng-click="userCtrl.addFriend(user)") add friend

@@ -10,6 +10,8 @@ app.service('RoomManager', [
     let api = {};
     let _activeUsers = {};
     let _activeUsersNormalized = [];
+    let _activeFriends = {};
+    let _activeFriendsNormalized = [];
 
     window.RoomManager = api;
 
@@ -53,6 +55,7 @@ app.service('RoomManager', [
         _activeUsersNormalized = _toNormalizedActiveUsers(_activeUsers);
         _run('presence', api.getActiveUsers());
       })
+
     }
 
     api.getUserName = () => {
@@ -78,6 +81,10 @@ app.service('RoomManager', [
 
     api.send = (message) => {
       _channel.push('message:new', { message: message, timestamp: moment().toString() });
+    }
+
+    api.sendFriend = (user) => {
+      _channel.push('friend:new', { user_id: user.user_id, timestamp: moment().toString() });
     }
 
     return api;

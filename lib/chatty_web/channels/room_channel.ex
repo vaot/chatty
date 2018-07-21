@@ -5,6 +5,9 @@ defmodule ChattyWeb.RoomChannel do
   alias Chatty.Repo
   alias Chatty.Coherence.User
   alias Chatty.Post
+  alias Chatty.RoomModel
+  alias Chatty.RoomModel.Room
+  alias Chatty.Buddies.Friend
 
   def join("room:" <> chat_id, _payload, socket) do
     send(self, :after_join)
@@ -50,11 +53,25 @@ defmodule ChattyWeb.RoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in("friend:new", payload, socket) do
+    user = Repo.get(User, socket.assigns.user_id)
+
+    myFriend = %{
+      user_id: user.id,
+      friend_id: payload["user_id"],
+      # timestamp: payload["timestamp"]
+    }
+
+    Friend.changeset(%Friend{}, myFriend) |> Repo.insert
+    {:noreply, socket}
+  end
+
   def handle_info(:after_join,  socket) do
     user = Repo.get(User, socket.assigns.user_id)
 
     {:ok, _} = Presence.track(socket, user.name, %{
-      online_at: inspect(System.system_time(:seconds))
+      online_at: inspect(System.system_time(:seconds)),
+      user_id: user.id,
     })
 
     push socket, "presence_state", Presence.list(socket)
