@@ -1,5 +1,9 @@
 # Chatty
 
+### Notes
+User vaot is the same as vaolivei. I have just noticed that I have been using my global
+git config which is set up with my github username/email.
+
 
 #See readme.txt for Project Checkpoint notes
 
