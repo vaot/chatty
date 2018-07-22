@@ -5,7 +5,7 @@
         .message-data
           %span.message-data-name
             %i.fa.fa-circle.online
-            {{msg.user}}
+            You
           %span.message-data-time
             {{ msg.timestamp | timeElapsed }}
         .message.my-message
@@ -18,10 +18,11 @@
         .message.other-message.float-right
           {{msg.message}}
 
-.chat-message.clearfix
+.chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
   %textarea#message-to-send(name="message-to-send"
                             placeholder="Type your message"
                             rows="3"
                             ng-model="message"
+                            ng-change="panelCtrl.onMessageChange(message)"
                             ng-keypress="panelCtrl.onKeyPress(message, $event)")
   %button(ng-click="panelCtrl.sendMessage(message)") Send

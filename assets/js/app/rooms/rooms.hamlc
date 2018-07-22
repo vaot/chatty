@@ -1,2 +1,1 @@
-.container(style="height: 100vh")
-  %div(ui-view)
+%div(ui-view)

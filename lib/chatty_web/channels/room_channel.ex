@@ -12,38 +12,12 @@ defmodule ChattyWeb.RoomChannel do
   def join("room:" <> chat_id, _payload, socket) do
     send(self, :after_join)
     {:ok, socket}
-
   end
 
-  def handle_in("message:new", payload, socket) do
-
-    IO.puts"++++++"
-    IO.inspect(socket)
-    IO.puts"++++++"
-    IO.inspect(socket.topic)
-    IO.puts"++++++"
-    "room:" <> chat_id = socket.topic
-    %{user_id: user_id} = socket.assigns
-    IO.inspect(user_id)
+  def handle_in("message:new:" <> recipient_id = key, payload, socket) do
     user = Repo.get(User, socket.assigns.user_id)
 
-    #room id: / user id
-    myPost = %{ 
-      name: user.name,
-      post: payload["message"],
-      email: user.email,
-      room_id: chat_id,
-      user_id: user_id,
-      timestamp: payload["timestamp"]
-    }
-    IO.puts"-----------"
-    IO.inspect(myPost)
-
-
-    Post.changeset(%Post{}, myPost) |> Repo.insert
-
-    
-    broadcast! socket, "message:new", %{
+    broadcast! socket, key, %{
       user: user.name,
       message: payload["message"],
       user_id: user.id,
@@ -59,10 +33,34 @@ defmodule ChattyWeb.RoomChannel do
     myFriend = %{
       user_id: user.id,
       friend_id: payload["user_id"],
-      # timestamp: payload["timestamp"]
+      timestamp: payload["timestamp"]
     }
 
     Friend.changeset(%Friend{}, myFriend) |> Repo.insert
+    {:noreply, socket}
+  end
+
+  def handle_in("user:public_key", payload, socket) do
+    user = Repo.get(User, socket.assigns.user_id)
+
+    broadcast! socket, "user:public_key", %{
+      user_id: user.id,
+      public_key: payload["public_key"],
+      timestamp: payload["timestamp"]
+    }
+
+    {:noreply, socket}
+  end
+
+  def handle_in("user:public_key:" <> user_id = key, payload, socket) do
+    user = Repo.get(User, socket.assigns.user_id)
+
+    broadcast! socket, key, %{
+      user_id: user.id,
+      public_key: payload["public_key"],
+      timestamp: payload["timestamp"]
+    }
+
     {:noreply, socket}
   end
 
@@ -76,16 +74,7 @@ defmodule ChattyWeb.RoomChannel do
 
     push socket, "presence_state", Presence.list(socket)
 
-    # Post.get_posts() 
-    # |> Enum.each (fn msg -> push(socket, "message:new", %{
-    #   user: user.name,
-    #   message: payload["message"],
-    #   user_id: user.id,
-    #   timestamp: payload["timestamp"]
-    # }) end)
-
-
-    {:noreply, socket} # :noreply
+    {:noreply, socket}
   end
 
   def terminate(reason, socket) do

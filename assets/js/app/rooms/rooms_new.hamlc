@@ -1,36 +1,17 @@
-:css
+.container
+  .head
+    %img.rock(src="/images/photo.jpg")
+    %input.form-control(name="channel"
+                        type="text"
+                        ng-model="room.channelName"
+                        placeholder="Enter a room name")
+    .checkbox
+      %label
+        %input(type="checkbox" ng-model="room.encrypted")
+        Encrypt channel messages (your communication will be encrypted and your messages will not be saved if this is checked)
 
-  .head {
-		position: fixed;
-		top: 20%;
-		left: 50%;
-		margin-top: -100px;
-		margin-left: -200px;
-
-  }
-  .room_btn {
-  	margin-top: 20px;
-	height:40px; 
-	width:100px; 
-
-
-  }
-  .rock {
-  	padding-bottom: 20px;
-  	height: 300px;
-  	margin-top: 0px;
-  }
-
-  #buttonCent{
-	margin: auto;
-    width: 60%;
-    padding: 30px;
-  }
-
-
-.head
-	%img.rock(src="/images/photo.jpg")
-  %input.form-control{:name => "channel", :type => "text", "ng-model" => "channelName"}
-  %br/
-	#buttonCent
-		%button(type="button" class='btn-dark btn btn-primary room_btn' href="javascript:void(0)" ng-click="createRoom(channelName)") Start Room
+    #buttonCent
+      %button(type="button"
+              class='btn-dark btn btn-primary room_btn'
+              href="javascript:void(0)"
+              ng-click="createRoom(room)") Start Room

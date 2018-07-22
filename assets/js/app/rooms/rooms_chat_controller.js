@@ -6,22 +6,35 @@ app.controller('RoomsChatCtrl', [
   '$scope',
   '$stateParams',
   'RoomManager',
-  ($scope, $stateParams, RoomManager) => {
+  'room',
+  ($scope, $stateParams, RoomManager, room) => {
+
     let socket = new Socket("/socket", {
       params: {
         user_token: window.Chatty.userToken
       }
     })
 
-    socket.connect()
+    let controller = {}
 
-    let channel = socket.channel(`room:${$stateParams.roomId}`, {
-      user: "victor"
+    controller.setReady = () => {
+      $scope.room.ready = true;
+    }
+
+    controller.setup = (() => {
+      $scope.room = room;
+      $scope.room.ready = false;
+      socket.connect()
+    })()
+
+    let channel = socket.channel(`room:${$stateParams.roomId}`);
+    channel.
+      join().
+      receive("ok", resp => { console.log("Joined successfully", resp) }).
+      receive("error", resp => { console.log("Unabledsds to join", resp) });
+
+    RoomManager.init(channel).then(() => {
+      $scope.room.ready = true;
     });
-
-    channel.join().receive("ok", resp => { console.log("Joined successfully", resp) })
-      .receive("error", resp => { console.log("Unabledsds to join", resp) });
-
-    RoomManager.init(channel, "victor");
   }
 ])

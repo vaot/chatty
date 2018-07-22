@@ -21,6 +21,10 @@ defmodule Chatty.RoomModel do
     Repo.all(Room)
   end
 
+  def get_by(query) do
+    Repo.get_by(Room, query)
+  end
+
   @doc """
   Gets a single room.
 

@@ -39,8 +39,9 @@ defmodule ChattyWeb.Router do
     scope "/v1", Api.V1 do
       pipe_through :api
       post "/room", RoomController, :create
+      post "/room/:room_id", RoomController, :update
+      get "/room/:room_id", RoomController, :show
 
-      get "/room/:room_id/talk",  RoomController, :messages
       get "/room/:user_id/friends", FriendController, :index
 
     end

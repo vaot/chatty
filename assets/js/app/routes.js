@@ -42,7 +42,20 @@ app.config([
       views: {
         '': {
           controller: 'RoomsChatCtrl',
-          templateUrl: '/rooms_chat.html'
+          templateUrl: '/rooms_chat.html',
+          resolve: {
+            room: [
+              'RoomsResource',
+              '$stateParams',
+              'UsersCryptoManager',
+              (RoomsResource, $stateParams, UsersCryptoManager) => {
+                return RoomsResource.get({ room_id: $stateParams.roomId }).$promise.then((room) => {
+                  UsersCryptoManager.init(room)
+                  return room
+                })
+              }
+            ]
+          }
         }
       }
     })

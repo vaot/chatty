@@ -28,14 +28,18 @@ app.directive('panel', [
           }
 
           controller.setup = () => {
-            $scope.messages = []
-            $scope.attr = {}
-            $scope.attr.userId = window.parseInt(window.Chatty.userId, 10)
+            $scope.messages = [];
+            $scope.attr = {};
+            $scope.attr.userId = RoomManager.getCurrentUserId();
 
             RoomManager.on('message', (payload) => {
-              $scope.$apply(() => {
+              if ($scope.room.encrypted) {
+                $scope.$apply(() => {
+                  $scope.messages.push(payload)
+                })
+              } else {
                 $scope.messages.push(payload)
-              })
+              }
             })
           }
 
