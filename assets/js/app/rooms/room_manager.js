@@ -1,12 +1,11 @@
 const app = angular.module('chatty');
 
-import {Presence} from 'phoenix';
+import {Presence} from 'phoenix'
 
 app.service('RoomManager', [
-  'CryptoService',
   'UsersCryptoManager',
   '$q',
-  (CryptoService, UsersCryptoManager, $q) => {
+  (UsersCryptoManager, $q) => {
 
     let _currentUserId = window.parseInt(window.Chatty.userId, 10)
     let _listenersOnMessages = []
@@ -122,15 +121,20 @@ app.service('RoomManager', [
         return deferred.promise
       }
 
-      UsersCryptoManager.issue().then((objKey) => {
-        UsersCryptoManager.setKeys(api.getCurrentUserId(), objKey)
+      api.setupEncryption().then(() => {
         deferred.resolve()
-        _broadcastKey()
-      }, () => {
+      }).catch(() => {
         deferred.reject()
       })
 
       return deferred.promise
+    }
+
+    api.setupEncryption = () => {
+      return UsersCryptoManager.issue().then((objKey) => {
+        UsersCryptoManager.setKeys(api.getCurrentUserId(), objKey)
+        _broadcastKey()
+      })
     }
 
     api.send = (message) => {
@@ -146,6 +150,19 @@ app.service('RoomManager', [
 
     api.isEncrypted = () => {
       return UsersCryptoManager.isEncrypted()
+    }
+
+    api.onEncryptedChange = ($scope, room) => {
+      if (room.encrypted) {
+        if (!api.isEncrypted() && room.encrypted) {
+          api.setupEncryption().then(() => {
+            $scope.room.encrypted = room.encrypted
+          })
+          return
+        }
+
+        $scope.room.encrypted = room.encrypted
+      }
     }
 
     api.sendFriend = (user) => {

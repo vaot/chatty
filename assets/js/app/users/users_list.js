@@ -29,7 +29,7 @@ app.directive('userList', [
             }
 
             RoomsResource.save(room).$promise.then((room) => {
-              $scope.room.encrypted = room.encrypted
+              RoomManager.onEncryptedChange($scope, room)
             }, () => {
               $scope.roomEncrypted = false
             })

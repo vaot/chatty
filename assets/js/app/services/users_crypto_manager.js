@@ -1,5 +1,7 @@
 let app = angular.module('chatty')
 
+import { Base64 } from 'js-base64'
+
 app.service("UsersCryptoManager", [
   '$q',
   ($q) => {
@@ -62,7 +64,7 @@ app.service("UsersCryptoManager", [
 
       return crypto.subtle.importKey("jwk", parsedKey, _webCrytoOptions, true, ["encrypt"])
         .then((publicKey) => {
-          api._setPublicKey(userId, publicKey)
+          api._setPublicKey(userId, Base64.decode(publicKey))
         })
     }
 
@@ -72,7 +74,7 @@ app.service("UsersCryptoManager", [
 
     api.exportPublicKey = (userId) => {
       return crypto.subtle.exportKey("jwk", _users[userId].publicKey).then((raw) => {
-        return JSON.stringify(raw)
+        return Base64.encode(JSON.stringify(raw))
       })
     }
 
@@ -90,7 +92,7 @@ app.service("UsersCryptoManager", [
       let vector = crypto.getRandomValues(new Uint8Array(16))
       return crypto.subtle.encrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].publicKey, _toArrayBufferView(message))
         .then((encrypted) => {
-          return encodeURIComponent(_toString(new Uint8Array(encrypted)))
+          return Base64.encode(_toString(new Uint8Array(encrypted)))
         })
     }
 
@@ -101,7 +103,7 @@ app.service("UsersCryptoManager", [
         return deferred.promise
       }
 
-      message = decodeURIComponent(message)
+      message = Base64.decode(message)
       let vector = crypto.getRandomValues(new Uint8Array(16))
       return crypto.subtle.decrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].privateKey, _toArrayBufferView(message))
         .then((result) => {
