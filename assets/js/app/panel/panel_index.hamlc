@@ -19,12 +19,9 @@
           {{msg.message}}
 
 .chat-message.clearfix
-  %div#message-to-send(name="message-to-send"
+  %textarea#message-to-send(name="message-to-send"
                             placeholder="Type your message"
                             rows="3"
                             ng-model="message"
-                            ng-keypress="panelCtrl.onKeyPress(message, $event)"
-                            ng-change="panelCtrl.onMessageChange(message)"
-                            contenteditable="true"
-                            ng-bind-html="message")
+                            ng-keypress="panelCtrl.onKeyPress(message, $event)")
   %button(ng-click="panelCtrl.sendMessage(message)") Send
