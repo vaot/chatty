@@ -1,4 +1,4 @@
-.container(ng-form="roomForm")
+.room_creation(ng-form="roomForm")
   .head
     .mdl-card.mdl-shadow--2dp
       .mdl-card__title
