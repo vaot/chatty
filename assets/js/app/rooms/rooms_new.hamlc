@@ -1,17 +1,26 @@
-.container
+.container(ng-form="roomForm")
   .head
-    %img.rock(src="/images/photo.jpg")
-    %input.form-control(name="channel"
-                        type="text"
-                        ng-model="room.channelName"
-                        placeholder="Enter a room name")
-    .checkbox
-      %label
-        %input(type="checkbox" ng-model="room.encrypted")
-        Encrypt channel messages (your communication will be encrypted and your messages will not be saved if this is checked)
+    .mdl-card.mdl-shadow--2dp
+      .mdl-card__title
+        %h2.mdl-card__title-text Welcome to Chatty, where encryption is at our heart
+      .mdl-card__supporting-text
+        .mdl-textfield.mdl-js-textfield(material-upgrade="true")
+          %input#roomName.mdl-textfield__input(type="text"
+                                               name="channelName"
+                                               ng-model="room.channelName")
 
-    #buttonCent
-      %button(type="button"
-              class='btn-dark btn btn-primary room_btn'
-              href="javascript:void(0)"
-              ng-click="createRoom(room)") Start Room
+          %label.mdl-textfield__label(for="roomName") Room Name
+          / %span.mdl-textfield__error(ng-if="roomForm.channelName.$error.required") Letters and spaces only
+
+        .checkbox
+          %label
+            %input(type="checkbox" ng-model="room.encrypted")
+            Encrypt channel messages (your communication will be encrypted and your messages will not be saved if this is checked)
+
+
+      .mdl-card__actions.mdl-card--border
+        %button.mdl-button(type="button"
+                           class='btn-dark btn btn-primary room_btn'
+                           href="javascript:void(0)"
+                           ng-click="createRoom(room)"
+                           class="mdl-button--colored mdl-js-button mdl-js-ripple-effect") Start Room

@@ -25,6 +25,10 @@ defmodule Chatty.RoomModel do
     Repo.get_by(Room, query)
   end
 
+  def get_by_user_id(user_id) do
+    Repo.all(from r in Room, where: r.user_id == ^user_id)
+  end
+
   @doc """
   Gets a single room.
 

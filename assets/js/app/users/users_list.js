@@ -1,4 +1,4 @@
-let app = angular.module('chatty');
+let app = angular.module('chatty')
 
 app.directive('userList', [
   'RoomManager',
@@ -36,15 +36,19 @@ app.directive('userList', [
           }
 
           controller.addFriend = (user) => {
-            RoomManager.sendFriend(user);
+            RoomManager.sendFriend(user)
           }
 
           controller.removeFriend = (user) => {
-            RoomManager.sendFriend(user);
+            RoomManager.sendFriend(user)
           }
 
-          controller.setup();
-          return controller;
+          RoomsResource.query({room_id: null}).$promise.then((result) => {
+            console.log(result)
+          })
+
+          controller.setup()
+          return controller
         }
       ],
       templateUrl: '/user_lists_index.html',

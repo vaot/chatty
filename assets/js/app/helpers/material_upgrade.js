@@ -6,7 +6,7 @@ app.directive('materialUpgrade', [
       link: (scope, element, attrs) => {
         setTimeout(() => {
           window.componentHandler.upgradeElements(element[0])
-        })
+        }, 1000)
       }
     }
   }

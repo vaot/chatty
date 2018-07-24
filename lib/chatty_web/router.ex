@@ -2,6 +2,36 @@ defmodule ChattyWeb.Router do
   use ChattyWeb, :router
   use Coherence.Router
 
+  @api_auth_key "x-chatty-auth-key"
+  @api_token_age 1000000
+
+  defp put_user_token(conn, _) do
+    current_user = Coherence.current_user(conn).id
+    user_id_token = Phoenix.Token.sign(conn, "user_id",
+                    current_user)
+
+    conn
+    |> assign(:user_token, user_id_token)
+    |> assign(:user_id, current_user)
+  end
+
+  defp authenticate_api(conn, _) do
+    verify_user_token(conn, get_req_header(conn, @api_auth_key))
+  end
+
+  defp verify_user_token(conn, [token]) do
+    case Phoenix.Token.verify(conn, "user_id", token, max_age: @api_token_age) do
+      {:ok, user_id} ->
+        conn |> assign(:user_id, user_id)
+      {:error, _reason} ->
+        conn |> put_status(401) |> json(%{}) |> halt
+    end
+  end
+
+  defp verify_user_token(conn, _token_header) do
+    conn |> put_status(401) |> json(%{}) |> halt
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -21,18 +51,9 @@ defmodule ChattyWeb.Router do
     plug :put_user_token
   end
 
-  defp put_user_token(conn, _) do
-    current_user = Coherence.current_user(conn).id
-    user_id_token = Phoenix.Token.sign(conn, "user_id",
-                    current_user)
-
-    conn
-    |> assign(:user_token, user_id_token)
-    |> assign(:user_id, current_user)
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
+    plug :authenticate_api
   end
 
   scope "/api", ChattyWeb do
@@ -41,9 +62,8 @@ defmodule ChattyWeb.Router do
       post "/room", RoomController, :create
       post "/room/:room_id", RoomController, :update
       get "/room/:room_id", RoomController, :show
-
+      get "/room", RoomController, :index
       get "/room/:user_id/friends", FriendController, :index
-
     end
   end
 
@@ -62,9 +82,4 @@ defmodule ChattyWeb.Router do
     get "/signout", PageController, :signout
     get "/*path", PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", ChattyWeb do
-  #   pipe_through :api
-  # end
 end

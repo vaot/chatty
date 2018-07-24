@@ -10,7 +10,7 @@ app.service("UsersCryptoManager", [
       name: "RSA-OAEP",
       modulusLength: 2048,
       publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-      hash: {name: "SHA-256"}
+      hash: { name: "SHA-256" }
     }
 
     let _webCrytoActions = ["encrypt", "decrypt"]
@@ -60,11 +60,11 @@ app.service("UsersCryptoManager", [
     }
 
     api.importPublicKey = (userId, publicKeyRaw) => {
-      let parsedKey = JSON.parse(publicKeyRaw)
+      let parsedKey = JSON.parse(Base64.decode(publicKeyRaw))
 
       return crypto.subtle.importKey("jwk", parsedKey, _webCrytoOptions, true, ["encrypt"])
         .then((publicKey) => {
-          api._setPublicKey(userId, Base64.decode(publicKey))
+          api._setPublicKey(userId, publicKey)
         })
     }
 

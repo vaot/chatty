@@ -25,7 +25,8 @@
           online | {{ user.online_at | timeElapsed:'from_unix' }} |
           %a(href="#" ng-click="userCtrl.addFriend(user)") add friend
 
-  %h5 Settings
+  %div(ng-if="currentUser.id == room.user_id")
+    %h5 Settings
     %ul.list
       %li.clearfix
         .about(material-upgrade="true")

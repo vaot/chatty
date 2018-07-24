@@ -306,3 +306,23 @@ input {
 .head {
   text-align: center;
 }
+
+.head .mdl-card {
+  width: 512px;
+}
+
+.head .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../assets/demos/welcome_card.jpg') center / cover;
+}
+
+.head .mdl-card__menu {
+  color: #fff;
+}
+
+.mdl-js-textfield label {
+  margin-bottom: 0;
+}
+
+

@@ -1,24 +1,37 @@
 defmodule ChattyWeb.Api.V1.RoomController do
   use ChattyWeb, :controller
   alias Chatty.RoomModel
-  alias Chatty.RoomModel.Room
+  alias Chatty.Repo
+  alias Chatty.Coherence.User
 
-  def create(conn, room_params) do
-  	case RoomModel.create_room(room_params) do
-      {:ok, room} ->
-        conn
-        |> put_status(200)
-        |> json(room_view(room))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-      	conn
-        |> put_status(422)
-        |> json(%{ error: "dasdasdsada" })
+  def index(conn, params) do
+    user = Repo.get(User, conn.assigns.user_id)
+    case RoomModel.get_by_user_id(user.id) do
+      rooms ->
+        respond_to_json(conn, rooms)
+      _ ->
+        respond_to_json(conn, nil)
     end
   end
 
-  def update(conn, %{ "room_id" => room_id, "user_id" => user_id } = params) do
-    room = RoomModel.get_by(%{ roomId: room_id, user_id: user_id })
+  def create(conn, room_params) do
+    user = Repo.get(User, conn.assigns.user_id)
+    room_params = room_params |> Map.put("user_id", user.id)
+
+    case RoomModel.create_room(room_params) do
+      {:ok, room} ->
+        respond_to_json(conn, room)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(422)
+        |> render("changeset_errors.json", changeset)
+    end
+  end
+
+  def update(conn, %{ "room_id" => room_id } = params) do
+    user = Repo.get(User, conn.assigns.user_id)
+    room = RoomModel.get_by(roomId: room_id, user_id: user.id)
 
     case RoomModel.update_room(room, params) do
       {:ok, room} ->
@@ -43,39 +56,23 @@ defmodule ChattyWeb.Api.V1.RoomController do
       |> json(%{})
   end
 
-  def messages(conn, %{"room_id" => room_id}) do
-    IO.puts">>>>>>>>"
-    IO.inspect(room_id)
-    IO.puts">>>>>>>>"
-
-    conn
-    |> put_status(200)
-    |> json(%{room_id: room_id})
-
-  end
-
-
   # ================= Helpers ===============================
   # We need to move these helpers out of the controller logic
   defp respond_to_json(conn, nil)  do
     conn
       |> put_status(404)
-      |> json(%{})
+      |> render("show.json", %{})
+  end
+
+  defp respond_to_json(conn, rooms) when is_list(rooms) do
+    conn
+      |> put_status(200)
+      |> render("index.json", rooms: rooms)
   end
 
   defp respond_to_json(conn, room)  do
     conn
       |> put_status(200)
-      |> json(room_view(room))
-  end
-
-  defp room_view(room) do
-    %{
-      channelName: room.channelName,
-      roomId: room.roomId,
-      id: room.id,
-      encrypted: room.encrypted,
-      user_id: room.user_id
-    }
+      |> render("show.json", room: room)
   end
 end
