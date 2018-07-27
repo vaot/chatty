@@ -1,4 +1,4 @@
-const app = angular.module('chatty');
+const app = angular.module('chatty')
 
 import {Presence} from 'phoenix'
 

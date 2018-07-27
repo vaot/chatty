@@ -1,0 +1,4 @@
+.chat-container__sidebar
+  %sidebar
+.chat-container__list-rooms
+  %p TO DO: list rooms here

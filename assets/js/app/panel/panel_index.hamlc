@@ -1,28 +1,17 @@
 .chat-history
   %ul
     %li(ng-repeat="msg in messages" ng-class="{'clearfix': attr.usedId != msg.user_id}")
-      %div(ng-if="attr.userId == msg.user_id")
+      .message-container
+        .message-user-avatar
+          / TO DO: HERE IS WHERE THE USER AVATAR IMAGE SHOULD BE PLACED
+          .image-placeholder
         .message-data
-          %span.message-data-name
+          .message-data-name
             %i.fa.fa-circle.online
             You
-          %span.message-data-time
-            {{ msg.timestamp | timeElapsed }}
-        .message.my-message
-          {{msg.message}}
-
-      %div(ng-if="attr.userId != msg.user_id")
-        .message-data.align-right
-          %span.message-data-name {{msg.user}}
-          %i.fa.fa-circle.me
-        .message.other-message.float-right
-          {{msg.message}}
+            %spam.message-data-time
+              {{ msg.timestamp | timeElapsed }}
+          .message.my-message(ng-bind-html="msg.message | unsafe")
 
 .chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
-  %textarea#message-to-send(name="message-to-send"
-                            placeholder="Type your message"
-                            rows="3"
-                            ng-model="message"
-                            ng-change="panelCtrl.onMessageChange(message)"
-                            ng-keypress="panelCtrl.onKeyPress(message, $event)")
-  %button(ng-click="panelCtrl.sendMessage(message)") Send
+  %textarea(message-composer="true" ng-model="message" ng-change="panelCtrl.onMessageChange()")

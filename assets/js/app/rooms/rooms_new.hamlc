@@ -1,3 +1,5 @@
+.chat-container__sidebar
+  %sidebar
 .room_creation(ng-form="roomForm")
   .head
     .mdl-card.mdl-shadow--2dp
@@ -10,7 +12,7 @@
                                                ng-model="room.channelName")
 
           %label.mdl-textfield__label(for="roomName") Room Name
-          / %span.mdl-textfield__error(ng-if="roomForm.channelName.$error.required") Letters and spaces only
+          %span.mdl-textfield__error(ng-if="roomForm.channelName.$error.required") Room name is required.
 
         .checkbox
           %label

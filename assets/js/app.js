@@ -23,6 +23,8 @@ import socket from "./socket"
 require('js/app/rooms/rooms_new.hamlc')
 require('js/app/rooms/rooms_chat.hamlc')
 require('js/app/rooms/rooms.hamlc')
+require('js/app/rooms/rooms_index.hamlc')
+require('js/app/friends/friends_index.hamlc')
 require('js/app/sidebar/sidebar_index.hamlc')
 require('js/app/panel/panel_index.hamlc')
 require('js/app/users/user_lists_index.hamlc')
@@ -33,6 +35,7 @@ import "js/app/authkey_interceptor.js"
 import "js/app/routes.js"
 
 import "js/app/filters/time_elapsed.js"
+import "js/app/filters/unsafe.js"
 
 import "js/app/users/users_list.js"
 import "js/app/sidebar/sidebar.js"
@@ -42,5 +45,7 @@ import "js/app/rooms/rooms_controller.js"
 import "js/app/rooms/rooms_chat_controller.js"
 import "js/app/rooms/rooms_new_controller.js"
 import "js/app/rooms/room_manager.js"
+import "js/app/friends/friends_controller.js"
 import "js/app/services/users_crypto_manager.js"
 import "js/app/helpers/material_upgrade.js"
+import "js/app/helpers/message_composer.js"

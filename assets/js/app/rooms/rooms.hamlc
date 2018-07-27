@@ -1,1 +1,1 @@
-%div(ui-view)
+.chat-container(ui-view)

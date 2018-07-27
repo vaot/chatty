@@ -1,9 +1,6 @@
-.row
-  .col-lg-1.sidebar-controls
-    %sidebar
-  .col-lg-2
-    .container.clearfix
-      %user-list
-  .col-lg-9
-    .chat
-      %panel
+.chat-container__sidebar
+  %sidebar
+.chat-container__list
+  %user-list
+.chat-container__panel
+  %panel

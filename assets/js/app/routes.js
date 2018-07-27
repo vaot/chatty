@@ -28,8 +28,16 @@ app.config([
         }
       ]
     })
-    .state('rooms.new', {
+    .state('rooms.index', {
       url: '/rooms',
+      views: {
+        '': {
+          templateUrl: '/rooms_index.html'
+        }
+      }
+    })
+    .state('rooms.new', {
+      url: '/rooms/new',
       views: {
         '': {
           controller: 'RoomsNewCtrl',
@@ -53,6 +61,23 @@ app.config([
                   UsersCryptoManager.init(room)
                   return room
                 })
+              }
+            ]
+          }
+        }
+      }
+    })
+    .state('friends', {
+      url: '/friends',
+      views: {
+        '': {
+          controller: 'FriendsController',
+          templateUrl: '/friends_index.html',
+          resolve: {
+            friends: [
+              () => {
+                // TO DO: Return friends here
+                return []
               }
             ]
           }

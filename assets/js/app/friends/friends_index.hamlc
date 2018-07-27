@@ -1,0 +1,5 @@
+.chat-container
+  .chat-container__sidebar
+    %sidebar
+  .chat-container__friends-list
+    %p TO DO: list friends here

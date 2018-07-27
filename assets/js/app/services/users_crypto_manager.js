@@ -18,6 +18,8 @@ app.service("UsersCryptoManager", [
     let api = {}
     let _currentRoom = null
 
+    window.UsersCryptoManager = api
+
     let _toArrayBufferView = (str) => {
       let bytes = new Uint8Array(str.length);
 
@@ -83,16 +85,18 @@ app.service("UsersCryptoManager", [
     }
 
     api.encrypt = (userId, message) => {
+
       if (!api.isEncrypted()) {
         let deferred = $q.defer()
         deferred.resolve(message)
         return deferred.promise
       }
 
+      message = Base64.encode(message)
       let vector = crypto.getRandomValues(new Uint8Array(16))
       return crypto.subtle.encrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].publicKey, _toArrayBufferView(message))
         .then((encrypted) => {
-          return Base64.encode(_toString(new Uint8Array(encrypted)))
+          return _toString(new Uint8Array(encrypted))
         })
     }
 
@@ -103,11 +107,10 @@ app.service("UsersCryptoManager", [
         return deferred.promise
       }
 
-      message = Base64.decode(message)
       let vector = crypto.getRandomValues(new Uint8Array(16))
       return crypto.subtle.decrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].privateKey, _toArrayBufferView(message))
         .then((result) => {
-          return _toString(new Uint8Array(result))
+          return Base64.decode(_toString(new Uint8Array(result)))
         })
     }
 

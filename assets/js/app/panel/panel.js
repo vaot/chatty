@@ -1,4 +1,4 @@
-let app = angular.module('chatty');
+let app = angular.module('chatty')
 
 app.directive('panel', [
   'RoomManager',
@@ -10,27 +10,41 @@ app.directive('panel', [
       controller: [
         '$scope',
         ($scope) => {
-          let controller = {};
+          let controller = {}
+
+          controller.composerHandlers = {}
+
+          controller.composerHandlers.keypress = (event, ctrl) => {
+            if (event.keyCode == ENTER_KEY_CODE) {
+              event.preventDefault()
+              controller.sendMessage(ctrl.getText())
+              ctrl.setText("")
+              $scope.message = ""
+            }
+          }
+
+          controller.registerComposer = (composerCtrl) => {
+            controller.composer = composerCtrl
+          }
 
           controller.sendMessage = (message) => {
             if (!message) {
-              return;
+              return
             }
 
-            RoomManager.send(message);
-            $scope.message = null;
+            RoomManager.send(message)
+            $scope.message = null
           }
 
-          controller.onKeyPress = (message, event) => {
-            if (event.keyCode == ENTER_KEY_CODE) {
-              controller.sendMessage(message)
-            }
+          controller.handleEvent = (eventType, event, editor) => {
+            controller.composerHandlers[eventType](event, editor)
           }
 
           controller.setup = () => {
-            $scope.messages = [];
-            $scope.attr = {};
-            $scope.attr.userId = RoomManager.getCurrentUserId();
+            $scope.messages = []
+            $scope.attr = {}
+            $scope.attr.userId = RoomManager.getCurrentUserId()
+
 
             RoomManager.on('message', (payload) => {
               if ($scope.room.encrypted) {
@@ -51,4 +65,4 @@ app.directive('panel', [
       templateUrl: '/panel_index.html'
     }
   }
-]);
+])
