@@ -5,6 +5,7 @@
         .message-user-avatar
           / TO DO: HERE IS WHERE THE USER AVATAR IMAGE SHOULD BE PLACED
           .image-placeholder
+            %img(src="user.avatar_url")
         .message-data
           .message-data-name
             %i.fa.fa-circle.online

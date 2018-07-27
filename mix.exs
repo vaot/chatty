@@ -44,7 +44,13 @@ defmodule Chatty.Mixfile do
       {:cowboy, "~> 1.0"},
       {:coherence, "~> 0.5"},
       {:plug, "1.5.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:arc, "~> 0.8.0"},
+      {:arc_ecto, "~> 0.7.0"},  
+      {:ex_aws, "~> 1.1"},
+      {:hackney, "~> 1.6", override: true}, # you can add override option if you encounter issues with dependencies
+      {:poison, "~> 3.1"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 
@@ -61,4 +67,12 @@ defmodule Chatty.Mixfile do
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
+
+  def application do
+    [
+      mod: {CoherenceExample.Application, []},
+      extra_applications: [:logger, :runtime_tools, :coherence, :arc_ecto, :ex_aws, :hackney, :poison]
+    ]
+  end
+  
 end
