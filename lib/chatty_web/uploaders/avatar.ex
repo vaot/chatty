@@ -25,13 +25,13 @@ defmodule Chatty.Avatar do
   end
 
   # Override the storage directory:
-  def storage_dir(version, {file, scope}) do
-    "uploads/user/avatars/#{scope.id}"
+  def storage_dir(_, {_, scope}) do
+    "uploads/user/avatars/"
   end
 
   # Provide a default URL if there hasn't been a file uploaded
-  def default_url(version, scope) do
-    "/images/avatars/default_#{version}.png"
+  def default_url(version, _) do
+    "/images/avatars/default.png"
   end
 
   # Specify custom headers for s3 objects

@@ -40,6 +40,8 @@ app.directive('panel', [
             controller.composerHandlers[eventType](event, editor)
           }
 
+          // controller.avatar = window.Chatty.avatarUrl
+
           controller.setup = () => {
             $scope.messages = []
             $scope.attr = {}
@@ -57,6 +59,7 @@ app.directive('panel', [
             })
           }
 
+          // console.log("sdf")
           controller.setup()
           return controller
         }

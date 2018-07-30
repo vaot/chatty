@@ -5,7 +5,7 @@
         .message-user-avatar
           / TO DO: HERE IS WHERE THE USER AVATAR IMAGE SHOULD BE PLACED
           .image-placeholder
-            %img(src="user.avatar_url")
+            %img{:src => Chatty.Avatar.url({user.avatar, user}, :thumb)}/
         .message-data
           .message-data-name
             %i.fa.fa-circle.online

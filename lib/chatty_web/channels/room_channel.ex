@@ -67,14 +67,13 @@ defmodule ChattyWeb.RoomChannel do
   def handle_info(:after_join,  socket) do
     user = Repo.get(User, socket.assigns.user_id)
 
-    IO.inspect("hello")
-    IO.inspect(Chatty.Avatar.url({user.avatar, user}))
-
     {:ok, _} = Presence.track(socket, user.name, %{
       online_at: inspect(System.system_time(:seconds)),
       user_id: user.id,
-      avatar_url: Chatty.Avatar.url({user.avatar, user}),
+      avatar_url: Chatty.Avatar.url({user.avatar, user}, :thumb),
     })
+    IO.inspect(Chatty.Avatar.url({user.avatar, user}, :thumb))
+    IO.inspect(user)
 
     push socket, "presence_state", Presence.list(socket)
 
