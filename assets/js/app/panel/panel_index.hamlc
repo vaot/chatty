@@ -5,7 +5,7 @@
         .message-user-avatar
           / TO DO: HERE IS WHERE THE USER AVATAR IMAGE SHOULD BE PLACED
           .image-placeholder
-            %img{:src => Chatty.Avatar.url({user.avatar, user}, :thumb)}/
+
         .message-data
           .message-data-name
             %i.fa.fa-circle.online
@@ -15,4 +15,18 @@
           .message.my-message(ng-bind-html="msg.message | unsafe")
 
 .chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
+  %input#colorPicker(type="text")
   %textarea(message-composer="true" ng-model="message" ng-change="panelCtrl.onMessageChange()")
+
+:javascript
+  $("#colorPicker").spectrum({
+    showPaletteOnly: true,
+    showPalette:true,
+    color: 'blanchedalmond',
+    palette: [
+    ['black', 'white', 'blanchedalmond',
+    'rgb(255, 128, 0);', 'hsv 100 70 50'],
+    ['red', 'yellow', 'green', 'blue', 'violet']
+    ]
+  });
+  var value = $("#colorPicker").spectrum('get').toHexString();
