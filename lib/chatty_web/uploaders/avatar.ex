@@ -26,7 +26,7 @@ defmodule Chatty.Avatar do
 
   # Override the storage directory:
   def storage_dir(_, {_, scope}) do
-    "uploads/user/avatars/"
+    "uploads/user/avatars/" <> scope.uuid <> "/"
   end
 
   # Provide a default URL if there hasn't been a file uploaded

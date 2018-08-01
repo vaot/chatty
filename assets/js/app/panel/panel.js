@@ -44,9 +44,7 @@ app.directive('panel', [
 
           controller.setup = () => {
             $scope.messages = []
-            $scope.attr = {}
-            $scope.attr.userId = RoomManager.getCurrentUserId()
-
+            $scope.user = RoomManager.getCurrentUser()
 
             RoomManager.on('message', (payload) => {
               if ($scope.room.encrypted) {

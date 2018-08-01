@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 /* EMOJI OVERRIDES */
 
 .chat-container__panel .emojionearea.focused {
@@ -59,8 +60,13 @@
   display: flex;
 }
 
+.message-user-avatar img {
+  width: 100%;
+}
+
 .message-user-avatar {
   margin-right: 14px;
+  width: 60px;
 }
 
 .image-placeholder {
@@ -74,6 +80,7 @@ panel {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  background: #F8F8FF;
 }
 
 .chat-container__panel .chat-message {
@@ -97,6 +104,41 @@ panel {
 .chat-history ul {
   list-style: none;
 }
+
+.fa.fa-circle.online {
+  color: #23e429;
+}
+
+.message-container {
+
+
+}
+
+.message-data-name {
+  font-weight: bold;
+
+}
+
+
+#logtime {
+  color: grey;
+  font-weight: normal;
+  padding-left: 6px;
+}
+
+.message {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+}
+
+.my-message {
+  background: #66CDAA;
+}
+
 
 /* Disabled overlay */
 .is-disabled-overlay {
@@ -146,3 +188,18 @@ panel {
   justify-content: center;
 }
 
+.navbar {
+  height: 100vh;
+  border-radius: 0 !important;
+  align-items: start !important;
+}
+
+#colorLabel {
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.rooms-settings__color {
+  padding-top: 15px;
+  /*background-color: blue;*/
+}

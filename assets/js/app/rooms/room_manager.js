@@ -102,6 +102,19 @@ app.service('RoomManager', [
       return _currentUserId;
     }
 
+    api.getCurrentUser = () => {
+      let user = api.getActiveUsers().filter((user) => {
+        return user.user_id == api.getCurrentUserId() }
+      )[0]
+
+      user = user || {}
+
+      user.avatar_url = window.Chatty.avatarUrl
+      user.user_id = api.getCurrentUserId()
+
+      return user
+    }
+
     api.on = (event, callback) => {
       if (!_listeners[event]) {
         _listeners[event] = [];

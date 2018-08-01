@@ -22,6 +22,9 @@
            ng-model="roomEncrypted"
            ng-change="userCtrl.onSetEncryption(roomEncrypted)")
     %span.mdl-switch__label Encryption
-
-
-
+  %br
+  .rooms-settings__color
+    %input#colorPicker(type="text"
+                       ng-model="room.color"
+                       ng-change="userCtrl.onSetRoomColor(room)")
+    %span#colorLabel Theme colour
