@@ -32,7 +32,24 @@ app.config([
       url: '/rooms',
       views: {
         '': {
-          templateUrl: '/rooms_index.html'
+          templateUrl: '/rooms_index.html',
+          controller: [
+            '$scope',
+            'rooms',
+            ($scope, rooms) => {
+              $scope.rooms = rooms
+            }
+          ],
+          resolve: {
+            rooms: [
+              'RoomsResource',
+              (RoomsResource) => {
+                return RoomsResource.query({room_id: null}).$promise.then((result) => {
+                  return result.rooms
+                })
+              }
+            ]
+          },
         }
       }
     })

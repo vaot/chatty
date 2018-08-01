@@ -43,10 +43,6 @@ app.directive('userList', [
             RoomManager.sendFriend(user)
           }
 
-          RoomsResource.query({room_id: null}).$promise.then((result) => {
-            console.log(result)
-          })
-
           controller.setup()
           return controller
         }
