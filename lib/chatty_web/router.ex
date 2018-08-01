@@ -63,7 +63,9 @@ defmodule ChattyWeb.Router do
       post "/room/:room_id", RoomController, :update
       get "/room/:room_id", RoomController, :show
       get "/room", RoomController, :index
-      get "/room/:user_id/friends", FriendController, :index
+
+
+      resources "/friends", FriendController
     end
   end
 
