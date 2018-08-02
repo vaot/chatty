@@ -1,5 +1,4 @@
 /* EMOJI OVERRIDES */
-
 .chat-container__panel .emojionearea.focused {
   border-color: #CCC !important;
   box-shadow: none !important;
@@ -146,3 +145,50 @@ panel {
   justify-content: center;
 }
 
+.room_title {
+  padding-top: 26px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.room_box {
+  text-align: center;
+  width:512px;
+  margin:20px;
+  padding: 15px;
+  background-color: #EAECEE;
+}
+
+.room_container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row wrap;
+    /*display:inline;*/
+    /*justify-content: space-around;*/
+}
+
+.room_item {
+    /*order: 0;*/
+    flex-grow:1;
+    border-radius: 3px;
+    background-color: #0009;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 4px;
+    cursor: pointer;
+}
+
+.room_item:hover {
+  color:white;
+  background-color: #5DADE2;
+  text-decoration: none;
+
+}
