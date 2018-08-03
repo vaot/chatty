@@ -3,11 +3,13 @@ defmodule Chatty.Coherence.User do
   use Ecto.Schema
   use Coherence.Schema
 
-  
 
   schema "users" do
     field :name, :string
     field :email, :string
+
+    many_to_many :friends, Chatty.Coherence.User, join_through: "friends", join_keys: [user_id: :id, friend_id: :id]
+
     coherence_schema()
 
     timestamps()

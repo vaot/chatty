@@ -3,7 +3,8 @@ let app = angular.module('chatty')
 app.directive('userList', [
   'RoomManager',
   'RoomsResource',
-  (RoomManager, RoomsResource) => {
+  'FriendsResource',
+  (RoomManager, RoomsResource, FriendsResource) => {
     return {
       controller: [
         '$scope',
@@ -36,11 +37,9 @@ app.directive('userList', [
           }
 
           controller.addFriend = (user) => {
-            RoomManager.sendFriend(user)
-          }
-
-          controller.removeFriend = (user) => {
-            RoomManager.sendFriend(user)
+            FriendsResource.save({ friend_id: user.user_id }).$promise.then((result) => {
+              console.log(result)
+            })
           }
 
           controller.setup()

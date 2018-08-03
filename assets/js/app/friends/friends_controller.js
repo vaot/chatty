@@ -1,8 +1,9 @@
-const app = angular.module('chatty');
+const app = angular.module('chatty')
 
 app.controller('FriendsController', [
   '$scope',
-  ($scope) => {
-    console.log('FriendsController', "controller");
+  'friends',
+  ($scope, friends) => {
+    $scope.friends = friends
   }
 ])

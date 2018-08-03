@@ -27,6 +27,7 @@
 }
 
 .chat-container__list {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 16px;

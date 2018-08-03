@@ -92,9 +92,12 @@ app.config([
           templateUrl: '/friends_index.html',
           resolve: {
             friends: [
-              () => {
+              'FriendsResource',
+              (FriendsResource) => {
                 // TO DO: Return friends here
-                return []
+                return FriendsResource.query({}).$promise.then((result) => {
+                  return result.friends
+                })
               }
             ]
           }
