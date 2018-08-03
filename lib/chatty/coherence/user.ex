@@ -4,15 +4,15 @@ defmodule Chatty.Coherence.User do
   use Coherence.Schema
   use Arc.Ecto.Schema
 
-  
 
   schema "users" do
     field :name, :string
     field :email, :string
     field :avatar, Chatty.Avatar.Type
     field :uuid, :string
-    coherence_schema()
+    many_to_many :friends, Chatty.Coherence.User, join_through: "friends", join_keys: [user_id: :id, friend_id: :id]
 
+    coherence_schema()
     timestamps()
   end
 
