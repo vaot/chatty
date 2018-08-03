@@ -3,3 +3,8 @@
     %sidebar
   .chat-container__friends-list
     %p TO DO: list friends here
+    %ul
+      %li(ng-repeat="friend in friends")
+        %div Name: {{friend.name}}
+        %div Email: {{friend.email}}
+

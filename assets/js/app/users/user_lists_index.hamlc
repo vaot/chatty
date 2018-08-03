@@ -13,6 +13,13 @@
       {{user.name}}
     .mdl-tooltip(for="user_{{user.user_id}}") {{ user.online_at | timeElapsed:'from_unix' }}
 
+    .user-settings__menu(ng-if="currentUser.id != user.user_id")
+      %button.mdl-button.mdl-js-button.mdl-button--icon(id="user_{{user.user_id}}_menu")
+        %i.material-icons more_vert
+
+      %ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="user_{{user.user_id}}_menu")
+        %li.mdl-menu__item(ng-click="userCtrl.addFriend(user)") Add friend
+
 %div(ng-if="currentUser.id == room.user_id" material-upgrade="true")
   %h5 Settings
   %label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="room_encrypted")

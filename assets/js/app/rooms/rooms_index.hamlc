@@ -1,4 +1,7 @@
 .chat-container__sidebar
   %sidebar
 .chat-container__list-rooms
-  %p TO DO: list rooms here
+  %p TO DO: list rooms BEAUTIFULLY HERE
+  %ul
+    %li(ng-repeat="room in rooms")
+      %a(href="javascript:void(0)" ui-sref="rooms.chat({roomId: room.roomId})") {{room.channelName}}
