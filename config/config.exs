@@ -43,3 +43,14 @@ config :coherence, ChattyWeb.Coherence.Mailer,
   adapter: Swoosh.Adapters.Sendgrid,
   api_key: "your api key here"
 # %% End Coherence Configuration %%
+
+# config arc for avatar
+config :arc,
+  storage: Arc.Storage.Local
+
+
+### config for aws
+# config :ex_aws,
+#   access_key_id: [{:system, "AWS_ACCESS_KEY_ID"}, :instance_role],
+#   secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role],
+#   region: "eu-central-1"

@@ -70,6 +70,7 @@ defmodule ChattyWeb.RoomChannel do
     {:ok, _} = Presence.track(socket, user.name, %{
       online_at: inspect(System.system_time(:seconds)),
       user_id: user.id,
+      avatar_url: Chatty.Avatar.url({user.avatar, user}, :thumb)
     })
 
     push socket, "presence_state", Presence.list(socket)

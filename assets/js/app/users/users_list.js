@@ -9,6 +9,9 @@ app.directive('userList', [
       controller: [
         '$scope',
         ($scope) => {
+
+          let DEFAULT_THEME_COLOR = "#39446e";
+
           let controller = {};
 
           controller.setup = () => {
@@ -20,12 +23,35 @@ app.directive('userList', [
                 $scope.activeUsers = state
               })
             })
+
+            // Use timeout to push call to end of the rendering stack
+            setTimeout(() => {
+              $("#colorPicker").spectrum({
+                showPaletteOnly: true,
+                showPalette: true,
+                color: $scope.room.color || DEFAULT_THEME_COLOR,
+                palette: [
+                  ['black', 'white', 'blanchedalmond', 'rgb(255, 128, 0);', 'hsv 100 70 50'],
+                  ['red', 'yellow', 'green', 'blue', 'violet']
+                ]
+              })
+            })
+          }
+
+          controller.onSetRoomColor = (room) => {
+            console.log(room)
+
+            let roomAttr = {
+              room_id: $scope.room.roomId,
+              color: room.color
+            }
+
+            RoomsResource.save(roomAttr)
           }
 
           controller.onSetEncryption = (encrypted) => {
             let room = {
               encrypted: encrypted,
-              user_id: $scope.room.user_id,
               room_id: $scope.room.roomId
             }
 

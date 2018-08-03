@@ -1,17 +1,19 @@
 .chat-history
   %ul
-    %li(ng-repeat="msg in messages" ng-class="{'clearfix': attr.usedId != msg.user_id}")
+    %li(ng-repeat="msg in messages" ng-class="{'clearfix': user.user_id != msg.user_id}")
       .message-container
         .message-user-avatar
-          / TO DO: HERE IS WHERE THE USER AVATAR IMAGE SHOULD BE PLACED
-          .image-placeholder
+          %img(ng-src="{{user.avatar_url}}")
+
         .message-data
           .message-data-name
             %i.fa.fa-circle.online
             You
-            %spam.message-data-time
+            %spam.message-data-time#logtime
               {{ msg.timestamp | timeElapsed }}
           .message.my-message(ng-bind-html="msg.message | unsafe")
 
 .chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
-  %textarea(message-composer="true" ng-model="message" ng-change="panelCtrl.onMessageChange()")
+  %textarea#textID(message-composer="true" ng-model="message" ng-change="panelCtrl.onMessageChange()")
+
+

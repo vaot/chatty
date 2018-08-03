@@ -16,6 +16,8 @@
     <%= @user.email %>
   </li>
 
+  <strong>Avatar:</strong>
+  <img src="<%= Chatty.Avatar.url({@user.avatar, @user}, :thumb) %>"/>
 </ul>
 
 <%= link dgettext("coherence", "Edit"), to: registration_path(@conn, :edit) %> |

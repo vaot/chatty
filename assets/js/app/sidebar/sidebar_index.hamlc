@@ -1,4 +1,4 @@
-%nav.navbar
+%nav.navbar(style="background-color: {{room.color}}")
   %ul.navbar-nav
     %li.nav-item
       %a(href="#" ui-sref="rooms.new")

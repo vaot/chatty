@@ -23,7 +23,8 @@ defmodule ChattyWeb.Api.V1.RoomView do
       roomId: room.roomId,
       id: room.id,
       encrypted: room.encrypted,
-      user_id: room.user_id
+      user_id: room.user_id,
+      color: room.color
     }
   end
 end
