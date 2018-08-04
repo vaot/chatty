@@ -1,9 +1,22 @@
 .chat-history
   %ul
-    %li(ng-repeat="msg in messages" ng-class="{'clearfix': user.user_id != msg.user_id}")
-      .message-container
+    %li(ng-repeat="msg in messages")
+
+      .message-container(ng-if="currentUser.user_id != msg.user_id")
         .message-user-avatar
-          %img(ng-src="{{user.avatar_url}}")
+          %img(ng-src="{{panelCtrl.getUser(msg.user_id).avatar_url}}")
+
+        .message-data
+          .message-data-name
+            %i.fa.fa-circle.online
+            {{msg.user}}
+            %spam.message-data-time#logtime
+              {{ msg.timestamp | timeElapsed }}
+          .message.my-message(ng-bind-html="msg.message | unsafe")
+
+      .message-container(ng-if="currentUser.user_id == msg.user_id")
+        .message-user-avatar
+          %img(ng-src="{{currentUser.avatar_url}}")
 
         .message-data
           .message-data-name

@@ -102,10 +102,18 @@ app.service('RoomManager', [
       return _currentUserId;
     }
 
+    api.getUser = (userId) => {
+      let user = api.getActiveUsers().filter((user) => {
+        return user.user_id == userId
+      })[0]
+
+      return user || {}
+    }
+
     api.getCurrentUser = () => {
       let user = api.getActiveUsers().filter((user) => {
-        return user.user_id == api.getCurrentUserId() }
-      )[0]
+        return user.user_id == api.getCurrentUserId()
+      })[0]
 
       user = user || {}
 

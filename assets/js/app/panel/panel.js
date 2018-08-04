@@ -40,11 +40,13 @@ app.directive('panel', [
             controller.composerHandlers[eventType](event, editor)
           }
 
-          // controller.avatar = window.Chatty.avatarUrl
+          controller.getUser = (userId) => {
+            return RoomManager.getUser(userId)
+          }
 
           controller.setup = () => {
             $scope.messages = []
-            $scope.user = RoomManager.getCurrentUser()
+            $scope.currentUser = RoomManager.getCurrentUser()
 
             RoomManager.on('message', (payload) => {
               if ($scope.room.encrypted) {

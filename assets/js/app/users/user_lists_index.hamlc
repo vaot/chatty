@@ -13,7 +13,7 @@
       {{user.name}}
     .mdl-tooltip(for="user_{{user.user_id}}") {{ user.online_at | timeElapsed:'from_unix' }}
 
-    .user-settings__menu(ng-if="currentUser.id != user.user_id")
+    .user-settings__menu(ng-if="currentUser.user_id != user.user_id")
       %button.mdl-button.mdl-js-button.mdl-button--icon(id="user_{{user.user_id}}_menu")
         %i.material-icons more_vert
 
