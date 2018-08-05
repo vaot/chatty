@@ -117,8 +117,11 @@ app.service('RoomManager', [
         }
 
         if (payload.color != _currentRoom.color) {
-          _currentRoom.color = payload.color
-          _run('themeColor', _currentRoom.color)
+          if (!api.isEncrypted()){          
+            _currentRoom.color = payload.color
+            _run('themeColor', _currentRoom.color)
+          } 
+
         }
       })
 
