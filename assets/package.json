@@ -8,6 +8,7 @@
   "dependencies": {
     "haml-coffee-brunch": "^0.3.2",
     "js-base64": "^2.4.8",
+    "linkifyjs": "^2.1.6",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html"
   },

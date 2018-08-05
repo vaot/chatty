@@ -18,7 +18,9 @@ app.service("UsersCryptoManager", [
     let api = {}
     let _currentRoom = null
 
-    window.UsersCryptoManager = api
+    let _fromBufferToString = (buffer) => {
+      return _toString(new Uint8Array(buffer))
+    }
 
     let _toArrayBufferView = (str) => {
       let bytes = new Uint8Array(str.length);
@@ -84,25 +86,34 @@ app.service("UsersCryptoManager", [
       return _currentRoom.encrypted
     }
 
-    api.encrypt = (userId, message) => {
-
+    api.encrypt = (userId, message, options = {}) => {
       if (!api.isEncrypted()) {
         let deferred = $q.defer()
+        if (options.raw) {
+          message = _fromBufferToString(message)
+        }
         deferred.resolve(message)
         return deferred.promise
       }
 
-      message = Base64.encode(message)
+      if (!options.raw) {
+        message = Base64.encode(message)
+        message = _toArrayBufferView(message)
+      }
+
       let vector = crypto.getRandomValues(new Uint8Array(16))
-      return crypto.subtle.encrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].publicKey, _toArrayBufferView(message))
-        .then((encrypted) => {
-          return _toString(new Uint8Array(encrypted))
+      return crypto.subtle.encrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].publicKey, message).
+        then((encrypted) => {
+          return _fromBufferToString(encrypted)
         })
     }
 
-    api.decrypt = (userId, message) => {
+    api.decrypt = (userId, message, options = {}) => {
       if (!api.isEncrypted()) {
         let deferred = $q.defer()
+        if (options.raw) {
+          message = _toArrayBufferView(message)
+        }
         deferred.resolve(message)
         return deferred.promise
       }
@@ -110,7 +121,13 @@ app.service("UsersCryptoManager", [
       let vector = crypto.getRandomValues(new Uint8Array(16))
       return crypto.subtle.decrypt({ name: "RSA-OAEP", iv: vector }, _users[userId].privateKey, _toArrayBufferView(message))
         .then((result) => {
-          return Base64.decode(_toString(new Uint8Array(result)))
+          let normalized = new Uint8Array(result)
+
+          if (options.raw) {
+            return normalized
+          }
+
+          return Base64.decode(_toString(normalized))
         })
     }
 

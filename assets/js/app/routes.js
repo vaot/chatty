@@ -72,12 +72,8 @@ app.config([
             room: [
               'RoomsResource',
               '$stateParams',
-              'UsersCryptoManager',
-              (RoomsResource, $stateParams, UsersCryptoManager) => {
-                return RoomsResource.get({ room_id: $stateParams.roomId }).$promise.then((room) => {
-                  UsersCryptoManager.init(room)
-                  return room
-                })
+              (RoomsResource, $stateParams) => {
+                return RoomsResource.get({ room_id: $stateParams.roomId }).$promise
               }
             ]
           }

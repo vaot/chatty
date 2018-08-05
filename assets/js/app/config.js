@@ -4,7 +4,6 @@ app.run([
   '$templateCache',
   '$rootScope',
   ($templateCache, $rootScope) => {
-
     $rootScope.currentUser = {
       id: parseInt(window.Chatty.userId, 10)
     }

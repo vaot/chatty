@@ -14,7 +14,6 @@ defmodule Chatty.RoomModel.Room do
 
   @doc false
   def changeset(room, attrs) do
-    IO.inspect(room)
     room
     |> cast(attrs, [:channelName, :roomId, :color, :user_id, :encrypted])
     |> ensure_room_id(room.roomId, attrs)

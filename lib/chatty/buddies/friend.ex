@@ -17,5 +17,6 @@ defmodule Chatty.Buddies.Friend do
     friend
     |> cast(attrs, [:user_id, :friend_id])
     |> validate_required([:user_id, :friend_id])
+    |> unique_constraint(:friend_id, name: :friend_id_and_user_id_index)
   end
 end

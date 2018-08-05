@@ -32,9 +32,13 @@ defmodule ChattyWeb.Api.V1.RoomController do
   def update(conn, %{ "room_id" => room_id } = params) do
     user = Repo.get(User, conn.assigns.user_id)
     room = RoomModel.get_by(roomId: room_id, user_id: user.id)
+    is_encrypted_before = room.encrypted
+    color_before = room.color
 
     case RoomModel.update_room(room, params) do
       {:ok, room} ->
+        broadcast_to_clients(is_encrypted_before, color_before, room)
+
         respond_to_json(conn, room)
       {:error, %Ecto.Changeset{} = changeset} ->
         respond_to_json(conn, nil)
@@ -74,5 +78,16 @@ defmodule ChattyWeb.Api.V1.RoomController do
     conn
       |> put_status(200)
       |> render("show.json", room: room)
+  end
+
+  def broadcast_to_clients(was_encrypted, prev_color, room) do
+    is_outdated = room.encrypted != was_encrypted || prev_color != room.color
+
+    if is_outdated do
+      ChattyWeb.Endpoint.broadcast("room:#{room.roomId}", "room:attr", %{
+        encrypted: room.encrypted,
+        color: room.color
+      })
+    end
   end
 end

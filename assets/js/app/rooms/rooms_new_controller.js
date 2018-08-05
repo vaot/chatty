@@ -5,12 +5,14 @@ app.controller('RoomsNewCtrl', [
   '$state',
   'RoomsResource',
   ($scope, $state, RoomsResource) => {
+    // Default
+    $scope.room = { encrypted: true }
+
     $scope.createRoom = (room) => {
       let Room = new RoomsResource(room)
 
       Room.$save().then((result)=> {
         $state.go('rooms.chat', { roomId: result.roomId });
-        console.log(result);
       })
     }
   }

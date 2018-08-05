@@ -7,8 +7,8 @@ app.controller('RoomsChatCtrl', [
   '$stateParams',
   'RoomManager',
   'room',
-  ($scope, $stateParams, RoomManager, room) => {
-
+  'UsersCryptoManager',
+  ($scope, $stateParams, RoomManager, room, UsersCryptoManager) => {
     let socket = new Socket("/socket", {
       params: {
         user_token: window.Chatty.userToken
@@ -24,7 +24,14 @@ app.controller('RoomsChatCtrl', [
     controller.setup = (() => {
       $scope.room = room;
       $scope.room.ready = false;
+      UsersCryptoManager.init(room)
       socket.connect()
+
+      RoomManager.on('themeColor', (newColor) => {
+        $scope.$apply(() => {
+          $scope.room.color = newColor
+        })
+      })
     })()
 
     let channel = socket.channel(`room:${$stateParams.roomId}`);
@@ -33,7 +40,7 @@ app.controller('RoomsChatCtrl', [
       receive("ok", resp => { console.log("Joined successfully", resp) }).
       receive("error", resp => { console.log("Unabledsds to join", resp) });
 
-    RoomManager.init(channel).then(() => {
+    RoomManager.init(channel, room).then(() => {
       $scope.room.ready = true;
     });
   }

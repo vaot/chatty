@@ -1,7 +1,6 @@
 .chat-history
   %ul
-    %li(ng-repeat="msg in messages")
-
+    %li(ng-repeat="msg in messages" ng-class="{'is-current-user-message': currentUser.user_id == msg.user_id}")
       .message-container(ng-if="currentUser.user_id != msg.user_id")
         .message-user-avatar
           %img(ng-src="{{panelCtrl.getUser(msg.user_id).avatar_url}}")
@@ -27,6 +26,21 @@
           .message.my-message(ng-bind-html="msg.message | unsafe")
 
 .chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
-  %textarea#textID(message-composer="true" ng-model="message" ng-change="panelCtrl.onMessageChange()")
+  #textarea-container
+    #progress-file.mdl-progress.mdl-js-progress
+    .mdl-textfield--file
+      %input.mdl-textfield__input(type="text"
+                                  ng-model="fileMessage")
+      .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file(ng-style="{'background-color': room.color}"
+                                                                        ng-click="panelCtrl.sendFile()"
+                                                                        ng-if="panelCtrl.canSendFile()")
+        %i.material-icons send
+      .mdl-button.mdl-button--primary.mdl-button--icon.mdl-button--file(ng-style="{'background-color': room.color}")
+        %i.material-icons attach_file
+        %input#attachment(name="file" type="file")
 
+    %textarea(message-composer="true" ng-model="message")
 
+  #errors-snackbar.mdl-js-snackbar.mdl-snackbar(material-upgrade="true")
+    .mdl-snackbar__text
+    %button.mdl-snackbar__action(type="button")

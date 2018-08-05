@@ -4,12 +4,18 @@
   .head
     .mdl-card.mdl-shadow--2dp
       .mdl-card__title
-        %h2.mdl-card__title-text Welcome to Chatty, where encryption is at our heart
+        %h2.mdl-card__title-text
+          Welcome to Chatty, where encryption is at our heart
       .mdl-card__supporting-text
+        %p
+          Messages are not persisted for safety reasons. We want chatty to be safe
+          and commitment-free. You don't have to worry about us sneaking your messages.
+          You don't need to worry about someone intercepting your messages because theyare encrypted if you choose.
         .mdl-textfield.mdl-js-textfield(material-upgrade="true")
           %input#roomName.mdl-textfield__input(type="text"
                                                name="channelName"
-                                               ng-model="room.channelName")
+                                               ng-model="room.channelName"
+                                               ng-required="true")
 
           %label.mdl-textfield__label(for="roomName") Room Name
           %span.mdl-textfield__error(ng-if="roomForm.channelName.$error.required") Room name is required.
@@ -17,7 +23,7 @@
         .checkbox
           %label
             %input(type="checkbox" ng-model="room.encrypted")
-            Encrypt channel messages (your communication will be encrypted and your messages will not be saved if this is checked)
+            Encrypt channel messages (your communication will be encrypted)
 
 
       .mdl-card__actions.mdl-card--border

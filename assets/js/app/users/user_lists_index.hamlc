@@ -6,21 +6,21 @@
 
     %label.mdl-textfield__label(for="userSearch") Search...
 
-%ul.mdl-list(material-upgrade="true")
+%ul.mdl-list
   %li.mdl-list__item(ng-repeat="user in activeUsers | filter:search")
     %span.mdl-list__item-primary-content
       %i.material-icons.mdl-list__item-icon(id="user_{{user.user_id}}") fiber_manual_record
       {{user.name}}
-    .mdl-tooltip(for="user_{{user.user_id}}") {{ user.online_at | timeElapsed:'from_unix' }}
+    .mdl-tooltip(for="user_{{user.user_id}}" material-upgrade="true") {{ user.online_at | timeElapsed:'from_unix' }}
 
-    .user-settings__menu(ng-if="currentUser.user_id != user.user_id")
+    .user-settings__menu(ng-if="currentUser.user_id != user.user_id" material-upgrade="true")
       %button.mdl-button.mdl-js-button.mdl-button--icon(id="user_{{user.user_id}}_menu")
         %i.material-icons more_vert
 
       %ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="user_{{user.user_id}}_menu")
         %li.mdl-menu__item(ng-click="userCtrl.addFriend(user)") Add friend
 
-%div(ng-if="currentUser.id == room.user_id" material-upgrade="true")
+%div(ng-if="currentUser.user_id == room.user_id" material-upgrade="true")
   %h5 Settings
   %label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="room_encrypted")
     %input(type="checkbox"

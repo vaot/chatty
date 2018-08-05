@@ -27,16 +27,20 @@ defmodule ChattyWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("friend:new", payload, socket) do
+  def handle_in("file:new:" <> recipient_id = key, payload, socket) do
     user = Repo.get(User, socket.assigns.user_id)
 
-    myFriend = %{
+    broadcast! socket, key, %{
+      user: user.name,
+      file: payload["file"],
+      index: payload["index"],
+      total: payload["total"],
+      name: payload["name"],
+      type: payload["type"],
       user_id: user.id,
-      friend_id: payload["user_id"],
       timestamp: payload["timestamp"]
     }
 
-    Friend.changeset(%Friend{}, myFriend) |> Repo.insert
     {:noreply, socket}
   end
 

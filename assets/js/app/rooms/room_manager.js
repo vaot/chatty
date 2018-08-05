@@ -5,17 +5,17 @@ import {Presence} from 'phoenix'
 app.service('RoomManager', [
   'UsersCryptoManager',
   '$q',
-  (UsersCryptoManager, $q) => {
+  'FileManager',
+  (UsersCryptoManager, $q, FileManager) => {
 
     let _currentUserId = window.parseInt(window.Chatty.userId, 10)
     let _listenersOnMessages = []
     let _channel = null
+    let _currentRoom = null
     let _listeners = {}
     let api = {}
     let _activeUsers = {}
     let _activeUsersNormalized = []
-
-    window.RoomManager = api;
 
     let _isListeningToMessages = (userId) => {
       return _listenersOnMessages.includes(userId)
@@ -50,12 +50,16 @@ app.service('RoomManager', [
       return normalized;
     }
 
-    let _run = (event, args) => {
-      let callbacks = _listeners[event] || [];
+    // No arrow syntax for this function
+    // because we need to object arguments.
+    let _run = function() {
+      let event = arguments[0]
+      let args = Array.prototype.slice.call(arguments, 1)
+      let callbacks = _listeners[event] || []
 
       for (let callback of Array.from(callbacks)) {
         if (callback) {
-          callback(args);
+          callback.apply(this, args)
         }
       }
     }
@@ -64,20 +68,29 @@ app.service('RoomManager', [
       _channel.on('presence_state', payload => {
         _activeUsers = Presence.syncState(_activeUsers, payload);
         _activeUsersNormalized = _toNormalizedActiveUsers(_activeUsers);
-        _run('presence', api.getActiveUsers());
+        _run('presence', api.getActiveUsers())
       })
 
       _channel.on(`message:new:${api.getCurrentUserId()}`, payload => {
         UsersCryptoManager.decrypt(api.getCurrentUserId(), payload['message']).then((raw) => {
           payload['message'] = raw
-          _run('message', payload);
+          _run('message', payload)
+        })
+      })
+
+      _channel.on(`file:new:${api.getCurrentUserId()}`, payload => {
+        UsersCryptoManager.decrypt(api.getCurrentUserId(), payload['file'], { raw: true }).then((raw) => {
+          FileManager.compose(payload, raw, (fileObj) => {
+            payload["message"] = FileManager.linkify(fileObj, payload)
+            _run('file', payload)
+          })
         })
       })
 
       _channel.on('presence_diff', payload => {
         _activeUsers = Presence.syncDiff(_activeUsers, payload);
         _activeUsersNormalized = _toNormalizedActiveUsers(_activeUsers)
-        _run('presence', api.getActiveUsers());
+        _run('presence', api.getActiveUsers())
       })
 
       _channel.on('user:public_key', payload => {
@@ -85,13 +98,29 @@ app.service('RoomManager', [
         UsersCryptoManager.importPublicKey(payload["user_id"], payload["public_key"])
 
         // setTimeout so that we push this to the end of the call stack
-        setTimeout(()=> { _broadcastKey(payload['user_id']) })
+        setTimeout(()=> { _broadcastKey(payload['user_id']) }, 1000)
       })
 
       _channel.on(`user:public_key:${api.getCurrentUserId()}`, payload => {
+        // No need to import the key if this message is coming from the current user
         if (payload["user_id"] == api.getCurrentUserId()) return;
+
         UsersCryptoManager.importPublicKey(payload["user_id"], payload["public_key"])
       })
+
+      _channel.on(`room:attr`, payload => {
+        if (payload.encrypted != _currentRoom.encrypted) {
+          _currentRoom.encrypted = payload.encrypted
+
+          if (_currentRoom.encrypted) api.setupEncryption()
+        }
+
+        if (payload.color != _currentRoom.color) {
+          _currentRoom.color = payload.color
+          _run('themeColor', _currentRoom.color)
+        }
+      })
+
     }
 
     api.getActiveUsers = () => {
@@ -131,10 +160,12 @@ app.service('RoomManager', [
       _listeners[event].push(callback);
     }
 
-    api.init = (channel) => {
+    api.init = (channel, room) => {
       let deferred = $q.defer()
 
       _channel = channel
+      _currentRoom = room
+
       _setup()
 
       if (!api.isEncrypted()) {
@@ -158,14 +189,32 @@ app.service('RoomManager', [
       })
     }
 
-    api.send = (message) => {
+    api.sendFile = (fileBlob, file, progressFn) => {
+      FileManager.chunk(fileBlob, (idx, total, chunk) => {
+        for (let user of api.getActiveUsers()) {
+          UsersCryptoManager.encrypt(user.user_id, chunk, { raw: true }).then((encrypted) => {
+            _channel.push(`file:new:${user.user_id}`, {
+              file: encrypted,
+              timestamp: moment().toString(),
+              index: idx,
+              total: total,
+              type: file.type,
+              name: file.name
+            })
+            progressFn(idx, total)
+          }).catch((e)=> { console.log(e) })
+        }
+      })
+    }
+
+    api.send = (message, options = {}) => {
       for (let user of api.getActiveUsers()) {
-        UsersCryptoManager.encrypt(user.user_id, message).then((encrypted) => {
+        UsersCryptoManager.encrypt(user.user_id, message, options).then((encrypted) => {
           _channel.push(`message:new:${user.user_id}`, {
             message: encrypted,
             timestamp: moment().toString()
           })
-        })
+        }).catch((e)=> { console.log(e) })
       }
     }
 
@@ -184,10 +233,6 @@ app.service('RoomManager', [
 
         $scope.room.encrypted = room.encrypted
       }
-    }
-
-    api.sendFriend = (user) => {
-      _channel.push('friend:new', { user_id: user.user_id, timestamp: moment().toString() });
     }
 
     return api;

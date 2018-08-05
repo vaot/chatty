@@ -39,8 +39,6 @@ app.directive('userList', [
           }
 
           controller.onSetRoomColor = (room) => {
-            console.log(room)
-
             let roomAttr = {
               room_id: $scope.room.roomId,
               color: room.color
@@ -63,9 +61,7 @@ app.directive('userList', [
           }
 
           controller.addFriend = (user) => {
-            FriendsResource.save({ friend_id: user.user_id }).$promise.then((result) => {
-              console.log(result)
-            })
+            FriendsResource.save({ friend_id: user.user_id }).$promise
           }
 
           controller.setup()

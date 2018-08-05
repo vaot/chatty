@@ -1,5 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+
 /* EMOJI OVERRIDES */
+/* Important is being used to override lib css */
 .chat-container__panel .emojionearea.focused {
   border-color: #CCC !important;
   box-shadow: none !important;
@@ -27,6 +29,11 @@
   height: 100vh;
 }
 
+.chat-container__list .mdl-list {
+  overflow-y: scroll;
+  height: calc(100vh - 238px);
+}
+
 .chat-container__list {
   position: relative;
   display: flex;
@@ -40,6 +47,7 @@
   outline: none;
 }
 
+/* Important is being used to override lib css */
 .chat-container__list .mdl-list__item-icon {
   margin-right: 5px !important;
   font-size: 20px !important;
@@ -55,7 +63,6 @@
 }
 
 /* CHAT PANEL*/
-
 .message-container {
   display: flex;
 }
@@ -97,6 +104,10 @@ panel {
   background: #f5eaea;
 }
 
+.chat-history {
+  overflow-y: scroll;
+}
+
 .chat-history li {
   padding: 16px 0px;
 }
@@ -127,11 +138,6 @@ panel {
   font-size: 16px;
   border-radius: 7px;
 }
-
-.my-message {
-  background: #66CDAA;
-}
-
 
 /* Disabled overlay */
 .is-disabled-overlay {
@@ -242,4 +248,67 @@ panel {
   color:white;
   background-color: #5DADE2;
   text-decoration: none;
+}
+
+.mdl-button--file input {
+  cursor: pointer;
+  height: 100%;
+  right: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 300px;
+  z-index: 4;
+}
+
+.mdl-textfield--file .mdl-textfield__input {
+  box-sizing: border-box;
+  width: 0;
+}
+
+.mdl-textfield--file .mdl-button--file {
+  right: 0;
+}
+
+.mdl-textfield--file .mdl-button {
+  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .25), 0 1px 1px 0 rgba(0, 0, 0, .41);
+  height: 42px;
+  width: 42px;
+  background: #39446e;
+}
+
+.mdl-textfield--file .material-icons {
+  color: #fff;
+}
+
+.mdl-textfield--file {
+  position: absolute;
+  right: 7px;
+  z-index: +1;
+  bottom: 4px;
+}
+
+.mdl-textfield__input {
+  border-bottom: none !important;
+}
+
+.chat-history li .my-message {
+  background: #e4e4e4;
+  color: #000;
+}
+
+.chat-history li.is-current-user-message .my-message {
+  background: #66CDAA;
+  color: #fff;
+}
+
+.chat-history li.is-current-user-message {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 50px;
+}
+
+#progress-file {
+  width: 100%;
+  display: none;
 }
