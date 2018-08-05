@@ -1,6 +1,6 @@
 .chat-container__sidebar
   %sidebar
-.chat-container__list
+.chat-container__list(style="background-color: {{userListColor}}")
   %user-list
 .chat-container__panel
-  %panel
+  %panel(style="background-color: {{chatPanelColor}}")

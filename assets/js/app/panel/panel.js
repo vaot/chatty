@@ -55,6 +55,7 @@ app.directive('panel', [
                 $scope.messages.push(payload)
               }
             })
+
           }
 
           // console.log("sdf")
