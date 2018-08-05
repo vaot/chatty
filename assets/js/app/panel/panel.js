@@ -136,7 +136,6 @@ app.directive('panel', [
               }
               setTimeout(_scrollToBottom, 0)
             })
-
           }
 
           controller.setup()

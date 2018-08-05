@@ -17,19 +17,13 @@
         .message-user-avatar
           %img(ng-src="{{currentUser.avatar_url}}")
 
-      %div.other(ng-if="user.user_id != msg.user_id")
-        .message-container
-          .message-user-avatar
-            %img(ng-src="{{user.avatar_url}}")     
-          .message-data
-            .message-data-name(style="color: {{frameColor}}")
-              %i.fa.fa-circle.online
-              Other
-              %spam.message-data-time#logtime
-                {{ msg.timestamp | timeElapsed }}
-            .message.my-message(style="color: {{frameColor}}" ng-bind-html="msg.message | unsafe")
-
-      
+        .message-data
+          .message-data-name
+            %i.fa.fa-circle.online
+            You
+            %spam.message-data-time#logtime
+              {{ msg.timestamp | timeElapsed }}
+          .message.my-message(ng-bind-html="msg.message | unsafe")
 
 .chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
   #textarea-container
