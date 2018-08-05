@@ -65,7 +65,9 @@
 /* CHAT PANEL*/
 .message-container {
   display: flex;
+
 }
+
 
 .message-user-avatar img {
   width: 100%;
@@ -120,6 +122,10 @@ panel {
   color: #23e429;
 }
 
+.message-data {
+  width: 100;
+}
+
 .message-data-name {
   font-weight: bold;
 }
@@ -131,7 +137,7 @@ panel {
 }
 
 .message {
-  color: white;
+  /*color: white;*/
   padding-left: 10px;
   padding-right: 10px;
   line-height: 26px;
@@ -196,6 +202,7 @@ panel {
 #colorLabel {
   font-weight: bold;
   font-size: 120%;
+  padding-left: 10px;
 }
 
 .rooms-settings__color {

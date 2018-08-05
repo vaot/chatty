@@ -4,11 +4,11 @@
                                          name="userSearch"
                                          ng-model="search.name")
 
-    %label.mdl-textfield__label(for="userSearch") Search...
+    %label.mdl-textfield__label(for="userSearch" style="color: {{searchBarColor}}") Search...
 
 %ul.mdl-list
   %li.mdl-list__item(ng-repeat="user in activeUsers | filter:search")
-    %span.mdl-list__item-primary-content
+    %span.mdl-list__item-primary-content(style="color: {{frameColor}}")
       %i.material-icons.mdl-list__item-icon(id="user_{{user.user_id}}") fiber_manual_record
       {{user.name}}
     .mdl-tooltip(for="user_{{user.user_id}}" material-upgrade="true") {{ user.online_at | timeElapsed:'from_unix' }}
@@ -28,10 +28,10 @@
            class="mdl-switch__input"
            ng-model="roomEncrypted"
            ng-change="userCtrl.onSetEncryption(roomEncrypted)")
-    %span.mdl-switch__label Encryption
+    %span.mdl-switch__label(style="color: {{frameColor}}") Encryption
   %br
-  .rooms-settings__color
+  .rooms-settings__color(ng-if="!roomEncrypted")
     %input#colorPicker(type="text"
                        ng-model="room.color"
                        ng-change="userCtrl.onSetRoomColor(room)")
-    %span#colorLabel Theme colour
+    %span#colorLabel(style="color: {{frameColor}}") Theme colour
