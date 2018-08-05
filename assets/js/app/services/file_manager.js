@@ -2,7 +2,7 @@ let app = angular.module('chatty')
 
 app.service('FileManager', [
   () => {
-    const CHUNK_SIZE = 100
+    const CHUNK_SIZE = 200
 
     let _filesInTransit = {}
     let api = {}

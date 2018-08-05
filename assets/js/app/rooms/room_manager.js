@@ -12,6 +12,7 @@ app.service('RoomManager', [
     let _listenersOnMessages = []
     let _channel = null
     let _currentRoom = null
+    let _initializedRooms = {}
     let _listeners = {}
     let api = {}
     let _activeUsers = {}
@@ -166,7 +167,9 @@ app.service('RoomManager', [
       _channel = channel
       _currentRoom = room
 
-      _setup()
+      if (!_initializedRooms[room.roomId]) {
+        _setup()
+      }
 
       if (!api.isEncrypted()) {
         deferred.resolve()
@@ -179,6 +182,7 @@ app.service('RoomManager', [
         deferred.reject()
       })
 
+      _initializedRooms[room.roomId] = true
       return deferred.promise
     }
 

@@ -27,7 +27,7 @@
 
 .chat-message(ng-class="{'is-disabled-overlay': !room.ready}" data-error="Chat room is not ready...we are initializing encryption keys.")
   #textarea-container
-    #progress-file.mdl-progress.mdl-js-progress
+    #progress-file.mdl-progress.mdl-js-progress(material-upgrade="true")
     .mdl-textfield--file
       %input.mdl-textfield__input(type="text"
                                   ng-model="fileMessage")
