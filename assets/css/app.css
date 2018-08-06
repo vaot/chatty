@@ -196,7 +196,12 @@ panel {
 .head .mdl-card__title {
   color: #fff;
   height: 176px;
-  background: #000 center / cover;
+  background: #fff center / cover;
+}
+
+.head .mdl-card__title-text {
+  color: #3a4670;
+  font-size: 34px;
 }
 
 .head .mdl-card__menu {

@@ -5,7 +5,7 @@
     .mdl-card.mdl-shadow--2dp
       .mdl-card__title
         %h2.mdl-card__title-text
-          Welcome to Chatty, where encryption is at our heart
+          Welcome to Chatty, where encryption is at our heart.
       .mdl-card__supporting-text
         %p
           Messages are not persisted for safety reasons. We want chatty to be safe
