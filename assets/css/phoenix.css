@@ -30,6 +30,15 @@ body, form, ul, table {
   background-size: 519px 71px;
 }
 
+.logo_chatty{
+	width: 393px;
+  height: 150px;
+  display: inline-block;
+  margin-bottom: 1em;
+  margin-top: 2em;
+  background-image: url("/images/chatty.png");
+  background-size: 393px 150px;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing {
