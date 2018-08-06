@@ -6,7 +6,17 @@
   border-color: #CCC !important;
   box-shadow: none !important;
 }
+/* 
+============ FRIENDS LIST ============= */
+.friend-list-icon {
+  width: 300px;
+}
 
+.friend_title {
+  padding-top: 26px;
+  font-size: 24px;
+  text-align: center;
+}
 /* ============== SIDER BAR ============== */
 .chat-container {
   display: flex;

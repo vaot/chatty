@@ -2,9 +2,14 @@
   .chat-container__sidebar
     %sidebar
   .chat-container__friends-list
-    %p TO DO: list friends here
-    %ul
-      %li(ng-repeat="friend in friends")
-        %div Name: {{friend.name}}
-        %div Email: {{friend.email}}
-
+  .friend_title
+    Friends
+    %ul.friend-list-icon.mdl-list
+      %li.mdl-list__item(ng-repeat="friend in friends")
+        %span.mdl-list__item-primary-content(style="color: {{frameColor}}")
+          %i.material-icons.mdl-list__item-icon(id="friend{{friend.friend_id}}") fiber_manual_record
+          {{friend.name}}
+        .mdl-tooltip(for="friend_{{friend.friend_id}}" material-upgrade="true") {{ friend.online_at | timeElapsed:'from_unix' }}
+        .user-settings__menu(ng-if="currentUser.user_id != friend.friend_id" material-upgrade="true")
+          %button.mdl-button.mdl-js-button.mdl-button--icon(id="friend_{{friend.friend_id}}_menu" style="color: {{frameColor}}")
+            %i.material-icons more_vert
