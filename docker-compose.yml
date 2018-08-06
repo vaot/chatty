@@ -1,0 +1,23 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /etc/postgres/data:/var/lib/postgresql/data
+  chatty:
+    image: "gcr.io/cluster-205920/github-vaot-chatty:master"
+    command: mix phx.server
+    ports:
+      - "4289:4289"
+    environment:
+      - MIX_ENV
+      - PORT
+      - POSTGRES_HOSTNAME
+      - POSTGRES_USERNAME
+      - POSTGRES_PASSWORD
+      - SECRET
+    links:
+      - postgres
