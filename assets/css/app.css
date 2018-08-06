@@ -42,6 +42,10 @@
   width: 250px;
 }
 
+.is_encrypted.chat-container__list {
+  background-color: yellow;
+}
+
 /* USER LIST */
 .chat-container__list .mdl-list__item-icon:focus {
   outline: none;
@@ -72,8 +76,15 @@
 }
 
 .message-user-avatar {
-  margin-right: 14px;
   width: 60px;
+}
+
+.message-user-avatar.me {
+  margin-left: 14px;
+}
+
+.message-user-avatar.other {
+  margin-right: 14px;
 }
 
 .image-placeholder {
@@ -120,8 +131,13 @@ panel {
   color: #23e429;
 }
 
+
 .message-data-name {
   font-weight: bold;
+}
+
+.chat-history.is-encrypted.message-container.message-data.message-data-name {
+  color: white;
 }
 
 #logtime {
@@ -196,6 +212,7 @@ panel {
 #colorLabel {
   font-weight: bold;
   font-size: 120%;
+  padding-left: 10px;
 }
 
 .rooms-settings__color {

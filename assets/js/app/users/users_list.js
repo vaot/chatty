@@ -11,7 +11,7 @@ app.directive('userList', [
         ($scope) => {
 
           let DEFAULT_THEME_COLOR = "#39446e";
-
+          let previousColor = $scope.room.color;
           let controller = {};
 
           controller.setup = () => {
@@ -23,16 +23,23 @@ app.directive('userList', [
                 $scope.activeUsers = state
               })
             })
+            controller.setSpectrum()
 
+          }
+
+          controller.setSpectrum = () => {
             // Use timeout to push call to end of the rendering stack
             setTimeout(() => {
               $("#colorPicker").spectrum({
                 showPaletteOnly: true,
                 showPalette: true,
+                hideAfterPaletteSelect:true,
                 color: $scope.room.color || DEFAULT_THEME_COLOR,
                 palette: [
-                  ['black', 'white', 'blanchedalmond', 'rgb(255, 128, 0);', 'hsv 100 70 50'],
-                  ['red', 'yellow', 'green', 'blue', 'violet']
+                  ['#0084FF', '#44BFC7', '#FF5CA1', '#F93D4C', '#A795C9'],
+                  ['#D696BB', '#669ACC', '#12CF13', '#FF7E2A', '#E88486'],
+                  ['#39446e', '#7646FE', '#20CDF7', '#67B869', '#D4A88D'],
+                  ['black']
                 ]
               })
             })
@@ -58,7 +65,36 @@ app.directive('userList', [
             }, () => {
               $scope.roomEncrypted = false
             })
+
+            controller.onSetThemeColor(encrypted, previousColor)
+            controller.setSpectrum()
+
+            console.log($scope.room.color)
+
           }
+
+          controller.onSetThemeColor = (encrypted, previousColor) => {
+
+            if (encrypted) {
+              console.log("change to black theme")
+              $scope.userListColor = "#2D3037"
+              $scope.room.color = "black"
+              $scope.chatPanelColor = "#363940"
+              $scope.messageBoxColor = "#494C55"
+              $scope.frameColor = "white"
+              $scope.searchBarColor = "#C4C4C4"
+
+
+            } else {
+              $scope.userListColor = "white"
+              $scope.room.color = previousColor;
+              $scope.chatPanelColor = "#F8F8FF"
+              $scope.messageBoxColor = "#F8F8FF"
+              $scope.frameColor = "black"
+              $scope.searchBarColor = "#C4C4C4"
+            }
+          }
+
 
           controller.addFriend = (user) => {
             FriendsResource.save({ friend_id: user.user_id }).$promise
