@@ -10,20 +10,15 @@ execute 'apt_update' do
   }
 end
 
-execute 'install_mysql' do
-  action :nothing
-  command %{
-    sudo debconf-set-selections << 'mysql-server-5.7 mysql-server/root_password password password' && \
-    sudo debconf-set-selections << 'mysql-server-5.7 mysql-server/root_password_again password password' && \
-    sudo apt-get -y install mysql-server-5.7 && \
-    echo "alter user 'root'@'localhost' identified with mysql_native_password by 'password';" | sudo mysql -u root
-  }
+execute 'get_nginx' do
+  command 'apt-get install -y nginx'
 end
 
-# Ensure we run mysql setup once
-file 'init_mysql_lockfile' do
-  action :create_if_missing
-  notifies :run, 'execute[install_mysql]', :immediately
+execute 'get_postgres' do
+  command %{
+    apt-get install -y postgresql && \
+    sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres'"
+  }
 end
 
 execute 'install_node_and_yarn' do
@@ -44,7 +39,7 @@ execute 'install_erlang_and_elixir' do
     wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb && \
     sudo apt-get update && \
     sudo apt-get -y install esl-erlang && \
-    sudo apt-get -y install elixir
+    sudo apt-get -y --fix-missing install elixir
   }
   notifies :run, 'execute[install_hex]', :immediately
 end
@@ -95,8 +90,18 @@ execute 'setup_ecto' do
   command "cd /home/vagrant/project && mix ecto.setup"
 end
 
+execute 'reload_nginx' do
+  command 'sudo nginx -s reload'
+  action :nothing
+end
+
+cookbook_file 'nginx-default' do
+  path "/etc/nginx/sites-available/default"
+
+  notifies :run, 'execute[reload_nginx]', :immediately
+end
+
 execute 'start_server' do
-  command %{
-    cd /home/vagrant/project && mix phx.server &
-  }
+  command "mix phx.server"
+  cwd "/home/vagrant/project/"
 end
