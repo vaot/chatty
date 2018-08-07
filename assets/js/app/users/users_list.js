@@ -18,6 +18,18 @@ app.directive('userList', [
             $scope.roomEncrypted = $scope.room.encrypted
             $scope.activeUsers = RoomManager.getActiveUsers()
 
+            if ($scope.roomEncrypted) {
+              controller.onSetThemeColor($scope.roomEncrypted, previousColor)
+              controller.setSpectrum()
+            }
+
+            RoomManager.on('encryptionChanged', (value) => {
+              $scope.$apply(() => {
+                controller.onSetThemeColor(value, previousColor)
+                controller.setSpectrum()
+              })
+            })
+
             RoomManager.on('presence', (state) => {
               $scope.$apply(()=> {
                 $scope.activeUsers = state
@@ -68,23 +80,16 @@ app.directive('userList', [
 
             controller.onSetThemeColor(encrypted, previousColor)
             controller.setSpectrum()
-
-            console.log($scope.room.color)
-
           }
 
           controller.onSetThemeColor = (encrypted, previousColor) => {
-
             if (encrypted) {
-              console.log("change to black theme")
               $scope.userListColor = "#2D3037"
               $scope.room.color = "black"
               $scope.chatPanelColor = "#363940"
               $scope.messageBoxColor = "#494C55"
               $scope.frameColor = "white"
               $scope.searchBarColor = "#C4C4C4"
-
-
             } else {
               $scope.userListColor = "white"
               $scope.room.color = previousColor;
@@ -94,7 +99,6 @@ app.directive('userList', [
               $scope.searchBarColor = "#C4C4C4"
             }
           }
-
 
           controller.addFriend = (user) => {
             FriendsResource.save({ friend_id: user.user_id }).$promise

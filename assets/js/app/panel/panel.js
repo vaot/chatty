@@ -6,7 +6,8 @@ import linkifyHtml from 'linkifyjs/html'
 app.directive('panel', [
   'RoomManager',
   'Snackbar',
-  (RoomManager, Snackbar) => {
+  'EscapeService',
+  (RoomManager, Snackbar, EscapeService) => {
 
     const ENTER_KEY_CODE = 13;
 
@@ -88,7 +89,9 @@ app.directive('panel', [
               return
             }
 
-            RoomManager.send(message)
+            RoomManager.send(
+              EscapeService.escape(message)
+            )
             $scope.message = null
           }
 
@@ -127,6 +130,8 @@ app.directive('panel', [
             })
 
             RoomManager.on('message', (payload) => {
+              payload["message"] = linkifyHtml(payload["message"])
+
               if ($scope.room.encrypted) {
                 $scope.$apply(() => {
                   $scope.messages.push(payload)

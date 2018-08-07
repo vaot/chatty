@@ -113,15 +113,15 @@ app.service('RoomManager', [
         if (payload.encrypted != _currentRoom.encrypted) {
           _currentRoom.encrypted = payload.encrypted
 
-          if (_currentRoom.encrypted) api.setupEncryption()
+          if (_currentRoom.encrypted) {
+            api.setupEncryption()
+          }
+          _run('encryptionChanged', _currentRoom.encrypted)
         }
 
         if (payload.color != _currentRoom.color) {
-          if (!api.isEncrypted()){          
-            _currentRoom.color = payload.color
-            _run('themeColor', _currentRoom.color)
-          } 
-
+          _currentRoom.color = payload.color
+          _run('themeColor', _currentRoom.color)
         }
       })
 
