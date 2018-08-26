@@ -66,23 +66,6 @@ messages cannot be sent at the moment. The solution could be to either look
 for a different algorithm or do message chunking(what we did with file sharing).
 
 
-### Testing the app
-We make heavily use of modern browser technologies, such as:
-- Web Crypto Api for encryption
-- URL api for file sharing
-- Flexbox for layout
-
-We have fully tested it on Chrome browser and latest firefox.
-
-### How to run the app & Deployment on AWS
-There are two ways you can see this app in action, the easiest is to visit 
-
-https://us-east.aurorapool.io/. 
-
-The app is deployed on AWS using a docker compose
-setup(see docker files in the repo for more info).
-
-
 To run via vagrant:
 
 `vagrant up`
