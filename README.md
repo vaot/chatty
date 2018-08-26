@@ -89,43 +89,5 @@ To run via vagrant:
 This will boot the vm and run the server in the same terminal.
 The app should be accessible at http://localhost:4289/.
 
-
-Problems with running via vagrant ? 
-
-Sometimes, we have run into the problem
-that the network connection is bad and it fails to fetch erlang solutions
-package, a few retries aftwards seemed to solve the problem.
-
-WE HIGHLY RECOMMEND creating a new account and
-uploading an avatar, since the test user does not have one.
-If you do not want to, you can use (bear in mind, there is no avatar for this user):
-
 username: testuser@example.com
-
 password: secret
-
-### Notes
-User vaot is the same as vaolivei. I have just noticed that I have been using my global
-git config which is set up with my github username/email.
-
-
-
-### Running on your native machine
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4289`](http://localhost:4289) from your browser.
-
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
