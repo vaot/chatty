@@ -6,7 +6,7 @@ Provide a safe and commitment-free way of communicating.
 ### The web stack
 - Elixir(Phoenix)
 - AngularJS(The whole frontend)
-- Posgres
+- Postgres
 - Ngnix
 
 ### How is our stack coming together ?
