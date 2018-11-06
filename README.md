@@ -9,18 +9,20 @@ Provide a safe and commitment-free way of communicating.
 - Postgres
 - Ngnix
 
-### How is our stack coming together ?
+### How is our stack coming together?
 We have our angular app talking to our web server via API calls that are
 authenticated ([see](https://csil-git1.cs.surrey.sfu.ca/vaolivei/demo-site/blob/master/assets/js/app/authkey_interceptor.js)) via
 an user token. Our web server define API end points that respond to json requests.
 Also, our angular app talks to phoenix channels via websockets.
-Why have we basically created two apps ? the backend as API server and the frontend being the angular app ?
-First, we wanted development to be modular and easy to divide tasks. Second, our ui has quite a bit
+#### Why have we basically created two apps? the backend as API server and the frontend being the angular app?
+First, we wanted development to be modular and easy to divide tasks. 
+
+Second, our UI has quite a bit
 of DOM manipulation and just using jQuery would not do it. Last, it is the proper way these days anyway :).
 The angular app lives [here](https://csil-git1.cs.surrey.sfu.ca/vaolivei/demo-site/tree/master/assets/js/app).
 
 
-### What features have we accomplished ?
+### What features have we accomplished?
 - User authentication via login as well as user tokens(used by angular app).
 - End-to-end encryption for messages exchanged between members.
 - Room creation logic
@@ -54,14 +56,14 @@ each chunk, they decrypt that chunk and save them. Once users
 receive all chunks, the decrytped chunks are combined and the file is restored.
 See [here](https://csil-git1.cs.surrey.sfu.ca/vaolivei/demo-site/blob/master/assets/js/app/rooms/room_manager.js#L200) and [here](https://csil-git1.cs.surrey.sfu.ca/vaolivei/demo-site/blob/master/assets/js/app/services/file_manager.js).
 
-### Why some of things are done this way ?
+### Why some of things are done this way?
 We have deliberately chosen not to save messages in favour of the commitment to
 be commitment-free. In fact, the whole structure to support saving messages are
 already laid out, we just have chosen not to.
 
 ### Limitations & Possible solutions
 Messages are encrypted via RSA algorithm, with such algorithm there is
-a limit in the size of the message we can encrypt, that means that long
+a limit in the size of the messages we can encrypt, that means that long
 messages cannot be sent at the moment. The solution could be to either look
 for a different algorithm or do message chunking(what we did with file sharing).
 
